@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard – Balaji Pet Hostel</title>
+  <meta name="description" content="Administrative dashboard for Balaji pet hostel management system.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+  <style>
+    .sidebar {
+      width: 240px;
+      background: var(--text-dark);
+      min-height: calc(100vh - 110px);
+      padding: 24px 0;
+      flex-shrink: 0;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 24px;
+      color: rgba(255,255,255,.7);
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      border-left: 3px solid transparent;
+    }
+    .sidebar-item:hover { background: rgba(255,255,255,.06); color: var(--white); }
+    .sidebar-item.active { background: rgba(255,255,255,.1); color: var(--white); border-left-color: var(--orange); }
+    .sidebar-label { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.3); padding: 18px 24px 8px; }
+    .admin-content { flex: 1; padding: 32px; overflow: hidden; }
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+    .admin-wrap { display: flex; min-height: calc(100vh - 110px); }
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .admin-content { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Admin Login Screen ──────────────────────────────── -->
+<div id="adminLoginSection">
+  <section class="page-hero" style="min-height:60vh;display:flex;align-items:center;">
+    <div class="container" style="width:100%;">
+      <div style="max-width:420px;margin:0 auto;">
+        <div class="card" style="padding:40px;">
+          <div style="text-align:center;margin-bottom:28px;">
+            <div style="font-size:3rem;margin-bottom:10px;">🔒</div>
+            <h1 style="font-family:var(--font-head);font-size:1.6rem;font-weight:700;margin-bottom:6px;">Admin Login</h1>
+            <p style="color:var(--text-mid);font-size:.9rem;">Restricted access – Authorized personnel only.</p>
+          </div>
+
+          <div class="alert alert-warning" style="margin-bottom:20px;">
+            🎓 Demo credentials:<br>
+            <strong>Username: admin &nbsp;|&nbsp; Password: paws2024</strong>
+          </div>
+
+          <div id="loginError" class="alert alert-error hidden">
+            ❌ Invalid username or password. Please try again.
+          </div>
+
+          <form id="loginForm" novalidate>
+            <div class="form-group">
+              <label class="form-label">Username <span class="required">*</span></label>
+              <input type="text" class="form-control" id="adminUser" placeholder="Enter username" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password <span class="required">*</span></label>
+              <input type="password" class="form-control" id="adminPass" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block btn-lg">🔐 Login to Dashboard</button>
+          </form>
+
+          <div style="text-align:center;margin-top:20px;">
+            <a href="index.html" style="font-size:.85rem;color:var(--text-mid);">← Back to Website</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── Admin Dashboard ────────────────────────────────── -->
+<div id="adminDashboard" class="hidden">
+
+  <!-- Top bar -->
+  <div style="background:var(--text-dark);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="nav-logo" style="width:38px;height:38px;font-size:1.2rem;">🐾</div>
+      <div>
+        <span style="color:var(--white);font-weight:700;font-family:var(--font-head);font-size:.95rem;">Happy Paws & Pixels</span>
+        <span style="color:rgba(255,255,255,.5);font-size:.8rem;margin-left:10px;">Admin Dashboard</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span style="color:rgba(255,255,255,.6);font-size:.85rem;" id="adminTime"></span>
+      <span class="badge badge-green" style="font-size:.75rem;">● Online</span>
+      <button class="btn btn-sm btn-secondary" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--white);" onclick="adminLogout()">🚪 Logout</button>
+      <a href="index.html" class="btn btn-sm btn-secondary" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--white);">🌐 View Website</a>
+    </div>
+  </div>
+
+  <!-- Main layout -->
+  <div class="admin-wrap">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-label">Main Menu</div>
+      <div class="sidebar-item active" onclick="switchPanel('overview')">📊 Overview</div>
+      <div class="sidebar-item" onclick="switchPanel('pets')">🐾 Pet Records</div>
+      <div class="sidebar-item" onclick="switchPanel('owners')">👤 Owner Records</div>
+      <div class="sidebar-item" onclick="switchPanel('stays')">🏠 Stay Management</div>
+
+      <div class="sidebar-label">Modules</div>
+      <div class="sidebar-item" onclick="switchPanel('volunteers')">🤝 Volunteer Registrations</div>
+      <div class="sidebar-item" onclick="switchPanel('consent')">📋 Consent Records</div>
+      <div class="sidebar-item" onclick="switchPanel('feedback')">⭐ Feedback</div>
+      <div class="sidebar-item" onclick="switchPanel('enquiries')">✉️ Enquiries</div>
+
+      <div class="sidebar-label">System</div>
+      <div class="sidebar-item" onclick="switchPanel('supabase')">⚡ Supabase Cloud DB</div>
+      <div class="sidebar-item" onclick="clearAllData()">🗑️ Clear Demo Data</div>
+      <div class="sidebar-item" onclick="exportData()">📥 Export Data</div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="admin-content">
+
+      <!-- ══ OVERVIEW PANEL ══════════════════════════════════ -->
+      <div class="admin-panel active" id="panel-overview">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h2 style="font-family:var(--font-head);font-size:1.5rem;font-weight:700;">Dashboard Overview</h2>
+            <p style="color:var(--text-mid);font-size:.9rem;" id="dashDate"></p>
+          </div>
+          <button class="btn btn-sm btn-green" onclick="refreshAllData()">🔄 Refresh</button>
+        </div>
+
+        <!-- Summary cards -->
+        <div class="grid-4" style="margin-bottom:32px;" id="summaryCards"><!-- JS --></div>
+
+        <!-- Quick Stats Row -->
+        <div class="grid-2" style="margin-bottom:28px;gap:24px;">
+          <div class="card" style="padding:24px;">
+            <h3 style="font-weight:700;margin-bottom:16px;">⭐ Feedback Summary</h3>
+            <div id="feedbackSummary"><!-- JS --></div>
+          </div>
+          <div class="card" style="padding:24px;">
+            <h3 style="font-weight:700;margin-bottom:16px;">📅 Upcoming Stays</h3>
+            <div id="upcomingStays"><!-- JS --></div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card" style="padding:24px;">
+          <h3 style="font-weight:700;margin-bottom:16px;">🕐 Recent Activity</h3>
+          <div id="recentActivity"><!-- JS --></div>
+        </div>
+      </div>
+
+      <!-- ══ PETS PANEL ══════════════════════════════════════ -->
+      <div class="admin-panel" id="panel-pets">
+        <h2 style="font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:6px;">🐾 Pet Records</h2>
+        <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:20px;">View and manage all registered pets.</p>
+        <div class="sample-banner">⚠️ Sample records marked in orange. Real submitted records appear below.</div>
+        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+          <div class="search-bar" style="flex:1;min-width:200px;max-width:300px;">
+            <span>🔍</span><input type="text" placeholder="Search pets…" id="adminPetSearch">
+          </div>
+          <select class="form-control" id="adminPetTypeFilter" style="width:auto;padding:8px 12px;border-radius:99px;">
+            <option value="">All Types</option>
+            <option>🐕 Dog</option>
+            <option>🐈 Cat</option>
+          </select>
+          <select class="form-control" id="adminVaccFilter" style="width:auto;padding:8px 12px;border-radius:99px;">
+            <option value="">All Vaccination</option>
+            <option>Up to date</option>
+            <option>Partially vaccinated</option>
+            <option>Not vaccinated</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table id="adminPetTable">
+            <thead><tr><th>#</th><th>Pet</th><th>Type</th><th>Breed</th><th>Age</th><th>Owner</th><th>Contact</th><th>Vaccination</th><th>Stay Status</th><th>Consent</th><th>Registered</th></tr></thead>
+            <tbody id="adminPetBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ OWNERS PANEL ════════════════════════════════════ -->
+      <div class="admin-panel" id="panel-owners">
+        <h2 style="font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:6px;">👤 Owner Records</h2>
+        <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:20px;">View registered owner contact information and emergency contacts.</p>
+        <div class="alert alert-warning" style="margin-bottom:16px;">🔐 Personal data – Do not share or expose this information publicly. Admin access only.</div>
+        <div class="table-wrap">
+          <table id="adminOwnerTable">
+            <thead><tr><th>#</th><th>Owner Name</th><th>Phone</th><th>Email</th><th>Pet(s)</th><th>Emergency Contact</th><th>Emerg. Phone</th><th>Address</th></tr></thead>
+            <tbody id="adminOwnerBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ STAYS PANEL ═════════════════════════════════════ -->
+      <div class="admin-panel" id="panel-stays">
+        <h2 style="font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:6px;">🏠 Stay Management</h2>
+        <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:20px;">Track all pet check-ins, check-outs, and stay statuses.</p>
+        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+          <div class="search-bar" style="flex:1;min-width:200px;max-width:300px;">
+            <span>🔍</span><input type="text" placeholder="Search stays…" id="adminStaySearch">
+          </div>
+          <select class="form-control" id="adminStayStatusFilter" style="width:auto;padding:8px 12px;border-radius:99px;">
+            <option value="">All Statuses</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table id="adminStayTable">
+            <thead><tr><th>#</th><th>Pet</th><th>Owner</th><th>Check-in</th><th>Check-out</th><th>Nights</th><th>Status</th><th>Consent</th></tr></thead>
+            <tbody id="adminStayBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ VOLUNTEERS PANEL ════════════════════════════════ -->
+      <div class="admin-panel" id="panel-volunteers">
+        <h2 style="font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:6px;">🤝 Volunteer Registrations</h2>
+        <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:20px;">Review all volunteer applications and their availability.</p>
+        <div class="search-bar" style="max-width:300px;margin-bottom:16px;">
+          <span>🔍</span><input type="text" placeholder="Search volunteers…" id="adminVolSearch">
+        </div>
+        <div class="table-wrap">
+          <table id="adminVolTable">
+            <thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Email</th><th>Age</th><th>Availability</th><th>Time Slot</th><th>Activities</th><th>Registered</th></tr></thead>
+            <tbody id="adminVolBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ CONSENT PANEL ═══════════════════════════════════ -->
+      <div class="admin-panel" id="panel-consent">
+        <h2 style="font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:6px;">📋 Consent Records</h2>
+        <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:20px;">View digital consent status for all registered pets.</p>
+        <div class="table-wrap">
+          <table id="adminConsentTable">
+            <thead><tr><th>#</th><th>Owner Name</th><th>Pet Name</th><th>Date Signed</th><th>Status</th></tr></thead>
+            <tbody id="adminConsentBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ FEEDBACK PANEL ══════════════════════════════════ -->
+      <div class="admin-panel" id="panel-feedback">
+        <h2 style="font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:6px;">⭐ Feedback Management</h2>
+        <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:20px;">Review ratings, comments, and improvement suggestions.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;" id="adminFbSummary"><!-- JS --></div>
+
+        <div class="search-bar" style="max-width:300px;margin-bottom:16px;">
+          <span>🔍</span><input type="text" placeholder="Search feedback…" id="adminFbSearch">
+        </div>
+
+        <div class="table-wrap">
+          <table id="adminFbTable">
+            <thead><tr><th>#</th><th>Owner</th><th>Pet</th><th>Rating</th><th>Experience</th><th>Comments</th><th>Suggestions</th><th>Recommend</th><th>Date</th></tr></thead>
+            <tbody id="adminFbBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ ENQUIRIES PANEL ═════════════════════════════════ -->
+      <div class="admin-panel" id="panel-enquiries">
+        <h2 style="font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:6px;">✉️ Enquiries</h2>
+        <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:20px;">Review contact form submissions and enquiries.</p>
+        <div class="table-wrap">
+          <table id="adminEnqTable">
+            <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Subject</th><th>Message</th><th>Date</th></tr></thead>
+            <tbody id="adminEnqBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      <!-- ══ SUPABASE CLOUD DB PANEL ═════════════════════════ -->
+      <div class="admin-panel" id="panel-supabase">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h2 style="font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:4px;">⚡ Supabase Cloud Database</h2>
+            <p style="color:var(--text-mid);font-size:.9rem;">Manage cloud PostgreSQL connection, credentials, live status and sync.</p>
+          </div>
+          <div id="adminSupabaseStatusBadge"></div>
+        </div>
+
+        <div class="grid-2" style="gap:24px;margin-bottom:28px;">
+          <!-- Credentials card -->
+          <div class="card" style="padding:24px;">
+            <h3 style="font-size:1.1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px;">🔑 API Credentials</h3>
+            <div class="form-group" style="margin-bottom:14px;">
+              <label class="form-label" style="font-size:0.82rem;">Supabase Project URL</label>
+              <input type="text" id="adminSpUrl" class="form-control" placeholder="https://xxxxxxxx.supabase.co" />
+              <small style="color:var(--text-light);font-size:0.75rem;">Found under Supabase Project Settings > API</small>
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+              <label class="form-label" style="font-size:0.82rem;">Anon / Publishable API Key</label>
+              <input type="password" id="adminSpKey" class="form-control" placeholder="sb_publishable_... or eyJhbGciOi..." />
+              <small style="color:var(--text-light);font-size:0.75rem;">Found under Supabase Project Settings > API</small>
+            </div>
+            <div id="adminSpTestMsg" style="display:none;padding:10px 14px;border-radius:10px;font-size:0.83rem;margin-bottom:14px;"></div>
+            <div style="display:flex;gap:10px;">
+              <button class="btn btn-secondary btn-sm" onclick="testAdminSupabase()">🔌 Test Connection</button>
+              <button class="btn btn-primary btn-sm" onclick="saveAdminSupabase()">💾 Save & Apply</button>
+            </div>
+          </div>
+
+          <!-- Cloud Sync & Actions -->
+          <div class="card" style="padding:24px;">
+            <h3 style="font-size:1.1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px;">🚀 Cloud Sync & Tools</h3>
+            <p style="font-size:0.85rem;color:var(--text-mid);margin-bottom:16px;line-height:1.5;">
+              Sync all locally registered pets, volunteers, consents, feedback, and enquiries directly to your live Supabase database with one click.
+            </p>
+            <button class="btn btn-green btn-block" style="margin-bottom:12px;" onclick="syncAllToCloud()">
+              ☁️ Sync All Local Data to Supabase
+            </button>
+            <div id="adminSyncStatus" style="font-size:0.82rem;margin-bottom:12px;"></div>
+            <div style="background:var(--cream-bg);padding:14px;border-radius:12px;font-size:0.8rem;color:var(--text-mid);line-height:1.5;">
+              <strong>💡 Offline / Demo Resilient:</strong><br>
+              When Supabase is connected, all records are stored in your cloud database and backed up locally. If disconnected, it safely falls back to LocalStorage so no demo fails.
+            </div>
+          </div>
+        </div>
+
+        <!-- SQL Schema Reference card -->
+        <div class="card" style="padding:24px;">
+          <h3 style="font-size:1.1rem;margin-bottom:10px;display:flex;align-items:center;gap:8px;">📄 Supabase SQL Schema</h3>
+          <p style="font-size:0.85rem;color:var(--text-mid);margin-bottom:14px;">
+            To create the required tables in your Supabase project, execute this script in your <strong>Supabase Dashboard > SQL Editor</strong> (also available in <code>supabase_schema.sql</code>):
+          </p>
+          <pre style="background:#1e293b;color:#e2e8f0;padding:16px;border-radius:12px;font-size:0.75rem;overflow-x:auto;max-height:220px;line-height:1.4;"><code>-- Run in Supabase SQL Editor:
+CREATE TABLE IF NOT EXISTS public.pets (
+  id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+  pet_name TEXT NOT NULL, species TEXT NOT NULL DEFAULT 'Dog', breed TEXT,
+  age TEXT, gender TEXT, owner_name TEXT NOT NULL, owner_phone TEXT NOT NULL,
+  owner_email TEXT, emergency_contact TEXT, diet_notes TEXT, medical_notes TEXT,
+  stay_start TEXT, stay_end TEXT, status TEXT DEFAULT 'Active', room_number TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS public.volunteers (
+  id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+  full_name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL,
+  availability TEXT, activities TEXT, experience TEXT, motivation TEXT,
+  status TEXT DEFAULT 'Pending', created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS public.consents (
+  id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+  owner_name TEXT NOT NULL, pet_name TEXT NOT NULL, owner_phone TEXT NOT NULL,
+  owner_email TEXT, emergency_vet_consent BOOLEAN DEFAULT TRUE,
+  terms_accepted BOOLEAN DEFAULT TRUE, signature_name TEXT NOT NULL,
+  signature_date TEXT, status TEXT DEFAULT 'Signed', created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS public.feedback (
+  id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+  author_name TEXT NOT NULL, pet_name TEXT NOT NULL, overall_rating INTEGER DEFAULT 5,
+  cleanliness_rating INTEGER DEFAULT 5, staff_rating INTEGER DEFAULT 5, care_rating INTEGER DEFAULT 5,
+  comments TEXT, recommend TEXT DEFAULT 'Yes', created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS public.enquiries (
+  id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+  name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT, pet_type TEXT,
+  message TEXT NOT NULL, status TEXT DEFAULT 'New', created_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE public.pets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.volunteers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.consents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.feedback ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.enquiries ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public read pets" ON public.pets FOR SELECT USING (true);
+CREATE POLICY "Public insert pets" ON public.pets FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public read volunteers" ON public.volunteers FOR SELECT USING (true);
+CREATE POLICY "Public insert volunteers" ON public.volunteers FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public read consents" ON public.consents FOR SELECT USING (true);
+CREATE POLICY "Public insert consents" ON public.consents FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public read feedback" ON public.feedback FOR SELECT USING (true);
+CREATE POLICY "Public insert feedback" ON public.feedback FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public read enquiries" ON public.enquiries FOR SELECT USING (true);
+CREATE POLICY "Public insert enquiries" ON public.enquiries FOR INSERT WITH CHECK (true);</code></pre>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </div><!-- /admin-wrap -->
+</div><!-- /adminDashboard -->
+
+<script type="module" src="/supabase.js"></script>
+<script type="module" src="/app.js"></script>
+<script>
+// ── Sample datasets ────────────────────────────────────────
+const SAMPLE_PETS_A = [
+  { pName:'Buddy', pType:'🐕 Dog', pBreed:'Golden Retriever', pAgeYears:3, pAgeMonths:2, pGender:'Male', pVaccination:'Up to date', oName:'Ahmad Faris', oPhone:'012-1111111', oEmail:'ahmad@sample.com', oAddress:'123 Sample St, KL', eContactName:'Siti Faris', eContactPhone:'012-9999111', sCheckIn:'2024-12-01', sCheckOut:'2024-12-07', stayStatus:'upcoming', checkoutDate:'', consentSigned:false, createdAt:'2024-11-20T08:00:00.000Z', _sample:true },
+  { pName:'Luna',  pType:'🐈 Cat', pBreed:'Persian', pAgeYears:2, pAgeMonths:0, pGender:'Female', pVaccination:'Up to date', oName:'Nurul Aini', oPhone:'013-2222222', oEmail:'nurul@sample.com', oAddress:'456 Sample Ave, PJ', eContactName:'Haris Aini', eContactPhone:'013-8888222', sCheckIn:'2024-11-25', sCheckOut:'2024-11-30', stayStatus:'active', checkoutDate:'', consentSigned:true, createdAt:'2024-11-10T09:00:00.000Z', _sample:true },
+  { pName:'Max',   pType:'🐕 Dog', pBreed:'German Shepherd', pAgeYears:5, pAgeMonths:6, pGender:'Male', pVaccination:'Up to date', oName:'Raj Kumar', oPhone:'016-3333333', oEmail:'raj@sample.com', oAddress:'789 Sample Rd, SA', eContactName:'Meena Kumar', eContactPhone:'016-7777333', sCheckIn:'2024-11-10', sCheckOut:'2024-11-15', stayStatus:'completed', checkoutDate:'2024-11-15', consentSigned:true, createdAt:'2024-11-01T10:00:00.000Z', _sample:true },
+];
+const SAMPLE_VOLS_A = [
+  { name:'Ahmad Faris', phone:'012-1111111', email:'ahmad@sample.com', age:'18 – 25', availability:'Mon, Wed, Fri', timeSlot:'Morning (8am–12pm)', activities:'Feeding, Walking dogs', createdAt:'2024-03-01T08:00:00.000Z', _sample:true },
+  { name:'Nurul Aini',  phone:'013-2222222', email:'nurul@sample.com', age:'18 – 25', availability:'Sat, Sun', timeSlot:'Afternoon (12pm–5pm)', activities:'Grooming, Campaigns', createdAt:'2024-03-05T09:00:00.000Z', _sample:true },
+  { name:'Raj Kumar',   phone:'016-3333333', email:'raj@sample.com', age:'26 – 35', availability:'Tue, Thu, Sat', timeSlot:'Flexible', activities:'Cleaning, Hostel activities', createdAt:'2024-03-10T10:00:00.000Z', _sample:true },
+];
+const SAMPLE_CONSENTS_A = [
+  { name:'Ahmad Faris', petName:'Buddy', dateSigned:'2024-11-20', status:'Pending', _sample:true },
+  { name:'Nurul Aini',  petName:'Luna',  dateSigned:'2024-11-10', status:'Signed',  _sample:true },
+  { name:'Raj Kumar',   petName:'Max',   dateSigned:'2024-11-01', status:'Signed',  _sample:true },
+];
+const SAMPLE_FEEDBACK_A = [
+  { ownerName:'Sarah L.', petName:'Max',   rating:5, experience:'Excellent', comments:'Absolutely wonderful experience!', suggestions:'More outdoor play area.', recommend:'Yes', createdAt:'2024-11-15T08:00:00.000Z', _sample:true },
+  { ownerName:'Nurul A.', petName:'Luna',  rating:5, experience:'Excellent', comments:'Luna seemed so relaxed!', suggestions:'More cat toys.', recommend:'Yes', createdAt:'2024-11-20T09:00:00.000Z', _sample:true },
+  { ownerName:'Raj K.',   petName:'Buddy', rating:4, experience:'Good', comments:'Good overall experience.', suggestions:'Clearer pick-up times.', recommend:'Yes', createdAt:'2024-11-25T10:00:00.000Z', _sample:true },
+  { ownerName:'Azman H.', petName:'Rex',   rating:3, experience:'Satisfactory', comments:'Care was okay.', suggestions:'Larger kennels.', recommend:'Maybe', createdAt:'2024-12-01T12:00:00.000Z', _sample:true },
+];
+
+// ── Helpers ───────────────────────────────────────────────
+const fmt = d => d ? new Date(d+'T00:00:00').toLocaleDateString('en-MY') : '—';
+const fmtDT = d => d ? new Date(d).toLocaleDateString('en-MY') : '—';
+const sampleBadge = s => s ? '<span class="badge badge-orange">Sample</span>' : '';
+function calcNights(ci, co) {
+  if (!ci || !co) return '—';
+  const d = (new Date(co)-new Date(ci))/86400000;
+  return d >= 0 ? d + 'n' : '—';
+}
+function stayBadge(s) {
+  const m = {upcoming:'badge-blue',active:'badge-green',completed:'badge-gray'};
+  return `<span class="badge ${m[s]||'badge-gray'}">${s||'—'}</span>`;
+}
+function vaccBadge(v) {
+  const m = {'Up to date':'badge-green','Partially vaccinated':'badge-orange','Not vaccinated':'badge-red','Unknown':'badge-gray'};
+  return `<span class="badge ${m[v]||'badge-gray'}">${v||'—'}</span>`;
+}
+function emptyRow(n) { return `<tr><td colspan="${n}" style="text-align:center;color:var(--text-light);padding:24px;">No records found.</td></tr>`; }
+
+// ── Panel switching ───────────────────────────────────────
+function switchPanel(id) {
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  document.getElementById(`panel-${id}`)?.classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(i => {
+    if (i.textContent.toLowerCase().includes(id.substring(0,5))) i.classList.add('active');
+  });
+  populatePanel(id);
+}
+
+// ── Populate panels ───────────────────────────────────────
+function populatePanel(id) {
+  switch(id) {
+    case 'overview':   buildOverview(); break;
+    case 'pets':       buildPets(); break;
+    case 'owners':     buildOwners(); break;
+    case 'stays':      buildStays(); break;
+    case 'volunteers': buildVols(); break;
+    case 'consent':    buildConsent(); break;
+    case 'feedback':   buildFeedback(); break;
+    case 'enquiries':  buildEnquiries(); break;
+    case 'supabase':   buildSupabasePanel(); break;
+  }
+}
+
+let cloudCache = {
+  pets: null,
+  volunteers: null,
+  consents: null,
+  feedback: null,
+  enquiries: null
+};
+
+async function loadCloudData() {
+  if (window.fetchRecords && window.pawsDB && window.pawsDB.isConfigured()) {
+    try {
+      const [p, v, c, f, e] = await Promise.all([
+        window.fetchRecords('pets'),
+        window.fetchRecords('volunteers'),
+        window.fetchRecords('consents'),
+        window.fetchRecords('feedback'),
+        window.fetchRecords('enquiries')
+      ]);
+      if (Array.isArray(p)) cloudCache.pets = p;
+      if (Array.isArray(v)) cloudCache.volunteers = v;
+      if (Array.isArray(c)) cloudCache.consents = c;
+      if (Array.isArray(f)) cloudCache.feedback = f;
+      if (Array.isArray(e)) cloudCache.enquiries = e;
+      buildOverview();
+      const currentActive = document.querySelector('.admin-panel.active')?.id?.replace('panel-', '');
+      if (currentActive && currentActive !== 'overview') {
+        populatePanel(currentActive);
+      }
+    } catch (err) {
+      console.warn('Error loading cloud records in admin:', err);
+    }
+  }
+}
+
+function mergeRecords(sample, cloud, localKey) {
+  const local = getData(localKey) || [];
+  if (Array.isArray(cloud) && cloud.length > 0) {
+    const ids = new Set(cloud.map(c => String(c.id)));
+    return [...sample, ...cloud, ...local.filter(l => !ids.has(String(l.id)))];
+  }
+  return [...sample, ...local];
+}
+
+function allPets() { return mergeRecords(SAMPLE_PETS_A, cloudCache.pets, 'pets'); }
+function allVols() { return mergeRecords(SAMPLE_VOLS_A, cloudCache.volunteers, 'volunteers'); }
+function allConsents() { return mergeRecords(SAMPLE_CONSENTS_A, cloudCache.consents, 'consents'); }
+function allFeedback() { return mergeRecords(SAMPLE_FEEDBACK_A, cloudCache.feedback, 'feedback'); }
+function allEnquiries() {
+  const local = getData('enquiries') || [];
+  if (Array.isArray(cloudCache.enquiries) && cloudCache.enquiries.length > 0) {
+    const ids = new Set(cloudCache.enquiries.map(e => String(e.id)));
+    return [...cloudCache.enquiries, ...local.filter(l => !ids.has(String(l.id)))];
+  }
+  return local;
+}
+
+// ── Overview ──────────────────────────────────────────────
+function buildOverview() {
+  const pets = allPets();
+  const vols = allVols();
+  const cons = allConsents();
+  const fb   = allFeedback();
+  const enq  = allEnquiries();
+
+  const upcoming  = pets.filter(p => p.stayStatus === 'upcoming').length;
+  const active    = pets.filter(p => p.stayStatus === 'active').length;
+  const pending   = cons.filter(c => c.status !== 'Signed').length;
+  const avgRating = fb.length ? (fb.reduce((s,f) => s+(f.rating||0),0)/fb.length).toFixed(1) : '—';
+  const owners    = [...new Set(pets.map(p => p.oName))].length;
+
+  document.getElementById('summaryCards').innerHTML = `
+    <div class="stat-card"><div class="stat-icon green">🐾</div><div><div class="stat-num">${pets.length}</div><div class="stat-label">Total Registered Pets</div></div></div>
+    <div class="stat-card"><div class="stat-icon blue">👤</div><div><div class="stat-num">${owners}</div><div class="stat-label">Registered Owners</div></div></div>
+    <div class="stat-card"><div class="stat-icon orange">🤝</div><div><div class="stat-num">${vols.length}</div><div class="stat-label">Volunteers Registered</div></div></div>
+    <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-num">${active}</div><div class="stat-label">Active Check-ins</div></div></div>
+    <div class="stat-card"><div class="stat-icon blue">📅</div><div><div class="stat-num">${upcoming}</div><div class="stat-label">Upcoming Check-ins</div></div></div>
+    <div class="stat-card"><div class="stat-icon red">📋</div><div><div class="stat-num">${pending}</div><div class="stat-label">Pending Consents</div></div></div>
+    <div class="stat-card"><div class="stat-icon orange">⭐</div><div><div class="stat-num">${fb.length}</div><div class="stat-label">Feedback Received</div></div></div>
+    <div class="stat-card"><div class="stat-icon blue">✉️</div><div><div class="stat-num">${enq.length}</div><div class="stat-label">Enquiries</div></div></div>
+  `;
+
+  document.getElementById('feedbackSummary').innerHTML = `
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px;">
+      <div style="font-size:2.5rem;font-weight:800;font-family:var(--font-head);color:var(--orange-dark);">${avgRating}</div>
+      <div><div style="color:var(--orange);font-size:1.3rem;">${avgRating !== '—' ? '★'.repeat(Math.round(avgRating)) : '—'}</div><div style="font-size:.8rem;color:var(--text-light);">${fb.length} reviews total</div></div>
+    </div>
+    ${[5,4,3].map(s => {
+      const c = fb.filter(f=>f.rating===s).length;
+      const pct = fb.length ? Math.round(c/fb.length*100) : 0;
+      return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:.8rem;width:32px;">${s}★</span><div class="progress-bar" style="flex:1;height:8px;"><div class="progress-fill" style="width:${pct}%"></div></div><span style="font-size:.78rem;color:var(--text-light);width:20px;">${c}</span></div>`;
+    }).join('')}
+  `;
+
+  const upcomingPets = pets.filter(p => p.stayStatus === 'upcoming').slice(0,4);
+  document.getElementById('upcomingStays').innerHTML = upcomingPets.length
+    ? upcomingPets.map(p => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+          <div><strong style="font-size:.9rem;">${p.pName}</strong> ${sampleBadge(p._sample)}<div style="font-size:.8rem;color:var(--text-light);">${p.oName}</div></div>
+          <div style="text-align:right;"><div style="font-size:.82rem;">${fmt(p.sCheckIn)}</div><span class="badge badge-blue" style="font-size:.72rem;">Upcoming</span></div>
+        </div>`).join('')
+    : '<p style="color:var(--text-light);font-size:.9rem;">No upcoming stays.</p>';
+
+  document.getElementById('dashDate').textContent = `Today: ${new Date().toLocaleDateString('en-MY', {weekday:'long',year:'numeric',month:'long',day:'numeric'})}`;
+
+  document.getElementById('recentActivity').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      ${allPets().slice(-3).reverse().map(p => `<div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--radius-sm);background:var(--cream);"><span>🐾</span><div><strong style="font-size:.88rem;">${p.pName}</strong> registered by ${p.oName} ${sampleBadge(p._sample)}</div><span style="margin-left:auto;font-size:.78rem;color:var(--text-light);">${fmtDT(p.createdAt)}</span></div>`).join('')}
+      ${allVols().slice(-2).reverse().map(v => `<div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--radius-sm);background:var(--cream);"><span>🤝</span><div><strong style="font-size:.88rem;">${v.name}</strong> registered as volunteer ${sampleBadge(v._sample)}</div><span style="margin-left:auto;font-size:.78rem;color:var(--text-light);">${fmtDT(v.createdAt)}</span></div>`).join('')}
+    </div>
+  `;
+}
+
+// ── Pets ──────────────────────────────────────────────────
+function buildPets() {
+  const pets = allPets();
+  document.getElementById('adminPetBody').innerHTML = pets.map((p,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${p.pName}</strong> ${sampleBadge(p._sample)}</td>
+      <td>${p.pType}</td>
+      <td>${p.pBreed||'—'}</td>
+      <td>${p.pAgeYears}y ${p.pAgeMonths||0}m</td>
+      <td>${p.oName}</td>
+      <td style="font-size:.82rem;">${p.oPhone}<br>${p.oEmail||''}</td>
+      <td>${vaccBadge(p.pVaccination)}</td>
+      <td>${stayBadge(p.stayStatus)}</td>
+      <td>${p.consentSigned ? '<span class="consent-status signed" style="font-size:.78rem;padding:3px 8px;"><span class="consent-dot"></span>Signed</span>' : '<span class="consent-status pending" style="font-size:.78rem;padding:3px 8px;"><span class="consent-dot"></span>Pending</span>'}</td>
+      <td style="font-size:.78rem;">${fmtDT(p.createdAt)}</td>
+    </tr>`).join('') || emptyRow(11);
+  filterTable('#adminPetSearch','#adminPetTable');
+}
+
+// ── Owners ────────────────────────────────────────────────
+function buildOwners() {
+  const pets = allPets();
+  // Group by owner
+  const ownerMap = {};
+  pets.forEach(p => {
+    if (!ownerMap[p.oName]) ownerMap[p.oName] = { ...p, pets: [] };
+    ownerMap[p.oName].pets.push(p.pName);
+  });
+  const owners = Object.values(ownerMap);
+  document.getElementById('adminOwnerBody').innerHTML = owners.map((o,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${o.oName}</strong> ${sampleBadge(o._sample)}</td>
+      <td>${o.oPhone}</td>
+      <td style="font-size:.82rem;">${o.oEmail||'—'}</td>
+      <td>${o.pets.join(', ')}</td>
+      <td>${o.eContactName||'—'} (${o.eContactRel||'—'})</td>
+      <td>${o.eContactPhone||'—'}</td>
+      <td style="font-size:.78rem;max-width:150px;">${o.oAddress||'—'}</td>
+    </tr>`).join('') || emptyRow(8);
+}
+
+// ── Stays ─────────────────────────────────────────────────
+function buildStays() {
+  const pets = allPets();
+  document.getElementById('adminStayBody').innerHTML = pets.map((p,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${p.pName}</strong> ${sampleBadge(p._sample)}</td>
+      <td>${p.oName}</td>
+      <td>${fmt(p.sCheckIn)}</td>
+      <td>${fmt(p.sCheckOut)}</td>
+      <td>${calcNights(p.sCheckIn,p.sCheckOut)}</td>
+      <td>${stayBadge(p.stayStatus)}</td>
+      <td>${p.consentSigned ? '<span class="badge badge-green">Signed</span>' : '<span class="badge badge-orange">Pending</span>'}</td>
+    </tr>`).join('') || emptyRow(8);
+  filterTable('#adminStaySearch','#adminStayTable');
+}
+
+// ── Volunteers ────────────────────────────────────────────
+function buildVols() {
+  const vols = allVols();
+  document.getElementById('adminVolBody').innerHTML = vols.map((v,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${v.name}</strong> ${sampleBadge(v._sample)}</td>
+      <td>${v.phone}</td>
+      <td style="font-size:.82rem;">${v.email}</td>
+      <td>${v.age||'—'}</td>
+      <td><span class="badge badge-green">${v.availability}</span></td>
+      <td style="font-size:.82rem;">${v.timeSlot||'—'}</td>
+      <td style="font-size:.78rem;max-width:180px;">${v.activities}</td>
+      <td style="font-size:.78rem;">${fmtDT(v.createdAt)}</td>
+    </tr>`).join('') || emptyRow(9);
+  filterTable('#adminVolSearch','#adminVolTable');
+}
+
+// ── Consents ──────────────────────────────────────────────
+function buildConsent() {
+  const cons = allConsents();
+  document.getElementById('adminConsentBody').innerHTML = cons.map((c,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${c.name}</strong> ${sampleBadge(c._sample)}</td>
+      <td>${c.petName}</td>
+      <td>${c.dateSigned ? fmtDT(c.dateSigned+'T00:00:00') : (c.createdAt ? fmtDT(c.createdAt) : '—')}</td>
+      <td>${c.status==='Signed' ? '<span class="consent-status signed"><span class="consent-dot"></span>Signed</span>' : '<span class="consent-status pending"><span class="consent-dot"></span>Pending</span>'}</td>
+    </tr>`).join('') || emptyRow(5);
+}
+
+// ── Feedback ──────────────────────────────────────────────
+function buildFeedback() {
+  const fb = allFeedback();
+  const avg = fb.length ? (fb.reduce((s,f)=>s+(f.rating||0),0)/fb.length).toFixed(1) : 0;
+  const exc = fb.filter(f=>f.rating===5).length;
+  const low = fb.filter(f=>f.rating<=2).length;
+
+  document.getElementById('adminFbSummary').innerHTML = `
+    <div class="stat-card"><div class="stat-icon orange">💬</div><div><div class="stat-num">${fb.length}</div><div class="stat-label">Total Reviews</div></div></div>
+    <div class="stat-card"><div class="stat-icon green">⭐</div><div><div class="stat-num">${avg}</div><div class="stat-label">Average Rating</div></div></div>
+    <div class="stat-card"><div class="stat-icon red">⚠️</div><div><div class="stat-num">${low}</div><div class="stat-label">Low Ratings (≤2★)</div></div></div>
+  `;
+
+  document.getElementById('adminFbBody').innerHTML = fb.map((f,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${f.ownerName}</strong> ${sampleBadge(f._sample)}</td>
+      <td>${f.petName}</td>
+      <td><span style="color:var(--orange);">${'★'.repeat(f.rating)}</span> ${f.rating}/5</td>
+      <td><span class="badge badge-${f.experience==='Excellent'?'green':f.experience==='Good'?'blue':'orange'}">${f.experience}</span></td>
+      <td style="font-size:.82rem;max-width:180px;">${f.comments?.substring(0,80)}…</td>
+      <td style="font-size:.82rem;max-width:150px;">${f.suggestions?.substring(0,60)||'—'}</td>
+      <td>${f.recommend||'—'}</td>
+      <td style="font-size:.78rem;">${fmtDT(f.createdAt)}</td>
+    </tr>`).join('') || emptyRow(9);
+  filterTable('#adminFbSearch','#adminFbTable');
+}
+
+// ── Enquiries ─────────────────────────────────────────────
+function buildEnquiries() {
+  const enq = allEnquiries();
+  document.getElementById('adminEnqBody').innerHTML = enq.map((e,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${e.name}</strong></td>
+      <td style="font-size:.82rem;">${e.email}</td>
+      <td>${e.phone||'—'}</td>
+      <td><span class="badge badge-blue">${e.subject}</span></td>
+      <td style="font-size:.82rem;max-width:200px;">${e.message?.substring(0,80)}…</td>
+      <td style="font-size:.78rem;">${fmtDT(e.createdAt)}</td>
+    </tr>`).join('') || emptyRow(7, 'No enquiries submitted yet.');
+}
+
+// ── Utils ─────────────────────────────────────────────────
+function refreshAllData() { populatePanel(document.querySelector('.admin-panel.active')?.id.replace('panel-','')); showToast('Data refreshed!'); }
+
+function clearAllData() {
+  if (!confirm('⚠️ This will clear ALL submitted (non-sample) data from this browser. Sample data will remain. Are you sure?')) return;
+  ['pets','volunteers','consents','feedback','enquiries'].forEach(k => localStorage.removeItem(k));
+  buildOverview();
+  showToast('Demo data cleared.', 'info');
+}
+
+function exportData() {
+  const data = {
+    pets:       allPets(),
+    volunteers: allVols(),
+    consents:   allConsents(),
+    feedback:   allFeedback(),
+    enquiries:  allEnquiries(),
+    exportedAt: new Date().toISOString(),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `happypaws_export_${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Data exported as JSON!');
+}
+
+// ── Supabase Panel ────────────────────────────────────────
+function buildSupabasePanel() {
+  const cfg = window.pawsDB ? window.pawsDB.getConfig() : { url: '', key: '' };
+  const isPlace = Boolean(cfg.url && (cfg.url.includes('qrcvdjwmmgjqbdpkkixh') || cfg.url.includes('your-project-id')));
+  const urlEl = document.getElementById('adminSpUrl');
+  const keyEl = document.getElementById('adminSpKey');
+  if (urlEl) urlEl.value = isPlace ? '' : (cfg.url || '');
+  if (keyEl) keyEl.value = isPlace ? '' : (cfg.key || '');
+
+  const badgeEl = document.getElementById('adminSupabaseStatusBadge');
+  if (badgeEl) {
+    if (window.pawsDB && window.pawsDB.isConfigured()) {
+      badgeEl.innerHTML = '<span class="badge badge-green" style="font-size:0.85rem;padding:6px 12px;">🟢 Cloud Connected (Supabase PostgreSQL)</span>';
+    } else {
+      badgeEl.innerHTML = '<span class="badge badge-orange" style="font-size:0.85rem;padding:6px 12px;">💾 LocalStorage Mode (Cloud Disconnected)</span>';
+    }
+  }
+}
+
+async function testAdminSupabase() {
+  const url = document.getElementById('adminSpUrl').value.trim();
+  const key = document.getElementById('adminSpKey').value.trim();
+  const msgEl = document.getElementById('adminSpTestMsg');
+  msgEl.style.display = 'block';
+  msgEl.style.background = '#f3f4f6';
+  msgEl.style.color = '#333';
+  msgEl.textContent = 'Testing connection to Supabase...';
+
+  if (window.pawsDB) {
+    window.pawsDB.saveConfig(url, key);
+    const res = await window.pawsDB.testConnection();
+    if (res.ok) {
+      msgEl.style.background = '#e6f8f2';
+      msgEl.style.color = '#1b6951';
+      msgEl.innerHTML = `✅ ${res.message}`;
+    } else {
+      msgEl.style.background = '#fee2e2';
+      msgEl.style.color = '#991b1b';
+      msgEl.innerHTML = `❌ ${res.message}`;
+    }
+    buildSupabasePanel();
+  }
+}
+
+function saveAdminSupabase() {
+  const url = document.getElementById('adminSpUrl').value.trim();
+  const key = document.getElementById('adminSpKey').value.trim();
+  if (window.pawsDB) {
+    window.pawsDB.saveConfig(url, key);
+    showToast('Supabase settings updated & saved!', 'success');
+    buildSupabasePanel();
+  }
+}
+
+async function syncAllToCloud() {
+  const statusEl = document.getElementById('adminSyncStatus');
+  if (!window.pawsDB || !window.pawsDB.isConfigured()) {
+    showToast('Please configure Supabase credentials first.', 'error');
+    return;
+  }
+  statusEl.innerHTML = '⏳ Syncing local records to Supabase...';
+  
+  try {
+    const localPets = getData('pets');
+    for (const p of localPets) {
+      await window.pawsDB.savePet(p);
+    }
+    const localVols = getData('volunteers');
+    for (const v of localVols) {
+      await window.pawsDB.saveVolunteer(v);
+    }
+    const localCons = getData('consents');
+    for (const c of localCons) {
+      await window.pawsDB.saveConsent(c);
+    }
+    const localFb = getData('feedback');
+    for (const f of localFb) {
+      await window.pawsDB.saveFeedback(f);
+    }
+    const localEnq = getData('enquiries');
+    for (const e of localEnq) {
+      await window.pawsDB.saveEnquiry(e);
+    }
+    statusEl.innerHTML = '✅ All local data successfully synced to Supabase!';
+    showToast('All local data synced to Supabase!', 'success');
+  } catch (err) {
+    statusEl.innerHTML = `❌ Sync error: ${err.message}`;
+    showToast('Sync error occurred', 'error');
+  }
+}
+
+window.testAdminSupabase = testAdminSupabase;
+window.saveAdminSupabase = saveAdminSupabase;
+window.syncAllToCloud = syncAllToCloud;
+window.buildSupabasePanel = buildSupabasePanel;
+
+// ── Init ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  requireAdmin();
+
+  // Clock
+  function updateClock() {
+    const el = document.getElementById('adminTime');
+    if (el) el.textContent = new Date().toLocaleTimeString('en-MY');
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Login form
+  document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const user = document.getElementById('adminUser').value.trim();
+    const pass = document.getElementById('adminPass').value;
+    if (adminLogin(user, pass)) {
+      sessionStorage.setItem('adminLoggedIn', 'true');
+      document.getElementById('adminLoginSection').classList.add('hidden');
+      document.getElementById('adminDashboard').classList.remove('hidden');
+      buildOverview();
+      loadCloudData();
+      checkAdminHash();
+    } else {
+      document.getElementById('loginError').classList.remove('hidden');
+    }
+  });
+
+  function checkAdminHash() {
+    const hash = window.location.hash.replace('#', '').toLowerCase();
+    if (hash && ['pets', 'owners', 'stays', 'volunteers', 'consent', 'feedback', 'enquiries', 'supabase'].includes(hash)) {
+      switchPanel(hash);
+    }
+  }
+
+  if (sessionStorage.getItem('adminLoggedIn')) {
+    buildOverview();
+    loadCloudData();
+    checkAdminHash();
+  }
+  window.addEventListener('hashchange', () => {
+    if (sessionStorage.getItem('adminLoggedIn')) {
+      checkAdminHash();
+    }
+  });
+});
+</script>
+</body>
+</html>

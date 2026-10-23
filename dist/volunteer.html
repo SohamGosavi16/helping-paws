@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volunteer Registration – Balaji Pet hostel </title>
+  <meta name="description"
+    content="Register as a volunteer at Happy Paws & Pixels Pet Hostel. Choose your preferred activities and availability.">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+  <script type="module" crossorigin src="/assets/styles-BITv2cDd.js"></script>
+  <script type="module" crossorigin src="/assets/app-49mPpPPx.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/styles-CBrmBBHo.css">
+</head>
+
+<body>
+
+  <!-- Page content injected after navbar by app.js -->
+
+  <!-- ── Page Hero ───────────────────────────────────────── -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="section-label">Join Our Team</span>
+      <h1>Volunteer at Happy Paws & Pixels 🤝</h1>
+      <p>Make a difference in the lives of animals. Register as a volunteer and help us provide excellent care for our
+        furry guests.</p>
+    </div>
+  </section>
+
+  <!-- ── Main Content ────────────────────────────────────── -->
+  <section class="section-pad">
+    <div class="container">
+      <div class="grid-2" style="gap:48px;align-items:flex-start;">
+
+        <!-- Registration Form -->
+        <div class="tab-group">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="register">📝 Register</button>
+            <button class="tab-btn" data-tab="view">👥 View Registrations</button>
+          </div>
+
+          <!-- TAB: Register -->
+          <div class="tab-content active" data-tab-content="register">
+            <div class="card" style="padding:36px;">
+              <h2 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:6px;">Volunteer
+                Registration Form</h2>
+              <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:24px;">Fill in your details below to
+                register as a volunteer. Fields marked with * are required.</p>
+
+              <div id="volunteerSuccess" class="alert alert-success hidden">
+                🎉 Registration successful! Thank you for volunteering. Our coordinator will contact you soon.
+              </div>
+
+              <form id="volunteerForm" novalidate>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Full Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="vName" placeholder="Your full name" required>
+                    <span class="form-error">Please enter your full name.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Contact Number <span class="required">*</span></label>
+                    <input type="tel" class="form-control" id="vPhone" placeholder="e.g. 012-3456789" required
+                      data-type="phone">
+                    <span class="form-error">Enter a valid phone number.</span>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Email Address <span class="required">*</span></label>
+                    <input type="email" class="form-control" id="vEmail" placeholder="your@email.com" required>
+                    <span class="form-error">Enter a valid email address.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Age Group <span class="required">*</span></label>
+                    <select class="form-control" id="vAge" required>
+                      <option value="">Select age group…</option>
+                      <option>Under 18 (with guardian consent)</option>
+                      <option>18 – 25</option>
+                      <option>26 – 35</option>
+                      <option>36 – 50</option>
+                      <option>50+</option>
+                    </select>
+                    <span class="form-error">Please select your age group.</span>
+                  </div>
+                </div>
+
+                <!-- Availability -->
+                <div class="form-group">
+                  <label class="form-label">Availability <span class="required">*</span></label>
+                  <p class="form-hint" style="margin-bottom:10px;">Select the days you are available to volunteer:</p>
+                  <div class="avail-grid" id="availGrid">
+                    <button type="button" class="avail-btn" data-day="Mon">Mon</button>
+                    <button type="button" class="avail-btn" data-day="Tue">Tue</button>
+                    <button type="button" class="avail-btn" data-day="Wed">Wed</button>
+                    <button type="button" class="avail-btn" data-day="Thu">Thu</button>
+                    <button type="button" class="avail-btn" data-day="Fri">Fri</button>
+                    <button type="button" class="avail-btn" data-day="Sat">Sat</button>
+                    <button type="button" class="avail-btn" data-day="Sun">Sun</button>
+                  </div>
+                  <input type="hidden" id="vAvailability" required>
+                  <span class="form-error" id="availError">Please select at least one day.</span>
+                </div>
+
+                <!-- Time Preference -->
+                <div class="form-group">
+                  <label class="form-label">Preferred Time Slot <span class="required">*</span></label>
+                  <select class="form-control" id="vTimeSlot" required>
+                    <option value="">Select preferred time…</option>
+                    <option>Morning (8am – 12pm)</option>
+                    <option>Afternoon (12pm – 5pm)</option>
+                    <option>Evening (5pm – 8pm)</option>
+                    <option>Flexible (Any time)</option>
+                  </select>
+                  <span class="form-error">Please select a time slot.</span>
+                </div>
+
+                <!-- Activities -->
+                <div class="form-group">
+                  <label class="form-label">Preferred Volunteering Activities <span class="required">*</span></label>
+                  <p class="form-hint" style="margin-bottom:10px;">Select all activities you are interested in:</p>
+                  <div class="activity-grid">
+                    <label class="activity-option">
+                      <input type="checkbox" name="activity" value="Feeding and caring for pets">
+                      <span>🍽️ Feeding & caring for pets</span>
+                    </label>
+                    <label class="activity-option">
+                      <input type="checkbox" name="activity" value="Cleaning and maintaining pet areas">
+                      <span>🧹 Cleaning & maintaining areas</span>
+                    </label>
+                    <label class="activity-option">
+                      <input type="checkbox" name="activity" value="Helping with daily hostel activities">
+                      <span>🏠 Daily hostel activities</span>
+                    </label>
+                    <label class="activity-option">
+                      <input type="checkbox" name="activity" value="Supporting awareness campaigns">
+                      <span>📢 Awareness campaigns</span>
+                    </label>
+                    <label class="activity-option">
+                      <input type="checkbox" name="activity" value="Assisting with pet-related events">
+                      <span>🎉 Pet-related events</span>
+                    </label>
+                    <label class="activity-option">
+                      <input type="checkbox" name="activity" value="Walking and exercising dogs">
+                      <span>🚶 Walking & exercising dogs</span>
+                    </label>
+                    <label class="activity-option">
+                      <input type="checkbox" name="activity" value="Grooming and hygiene care">
+                      <span>✂️ Grooming & hygiene care</span>
+                    </label>
+                    <label class="activity-option">
+                      <input type="checkbox" name="activity" value="Admin and record keeping">
+                      <span>📋 Admin & record keeping</span>
+                    </label>
+                  </div>
+                  <span class="form-error" id="activityError">Please select at least one activity.</span>
+                </div>
+
+                <!-- Experience -->
+                <div class="form-group">
+                  <label class="form-label">Relevant Experience (Optional)</label>
+                  <textarea class="form-control" id="vExperience"
+                    placeholder="Describe any relevant experience with animals, volunteering, or pet care (optional)…"
+                    rows="4"></textarea>
+                </div>
+
+                <!-- Emergency Contact -->
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Emergency Contact Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="vEmergName" placeholder="Emergency contact's name"
+                      required>
+                    <span class="form-error">Please provide an emergency contact.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Emergency Contact Number <span class="required">*</span></label>
+                    <input type="tel" class="form-control" id="vEmergPhone" placeholder="Emergency contact number"
+                      required>
+                    <span class="form-error">Please provide an emergency phone number.</span>
+                  </div>
+                </div>
+
+                <div class="form-check" style="margin-bottom:20px;">
+                  <input type="checkbox" id="vConsent" required>
+                  <label class="form-check-label" for="vConsent">
+                    I understand that volunteering is a commitment and I will inform the coordinator if I am unable to
+                    attend on my registered days. <span class="required">*</span>
+                  </label>
+                </div>
+
+                <button type="submit" class="btn btn-green btn-block btn-lg">🐾 Submit Volunteer Registration</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- TAB: View Registrations (Admin View) -->
+          <div class="tab-content" data-tab-content="view">
+            <div class="sample-banner">⚠️ Sample data shown for demonstration. Real registrations are stored in browser
+              localStorage.</div>
+            <div
+              style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+              <h3 style="font-weight:700;">Volunteer Registrations</h3>
+              <div class="search-bar" style="max-width:260px;">
+                <span>🔍</span>
+                <input type="text" placeholder="Search volunteers…" id="volSearch">
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table id="volTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Availability</th>
+                    <th>Time Slot</th>
+                    <th>Activities</th>
+                    <th>Registered</th>
+                  </tr>
+                </thead>
+                <tbody id="volTableBody">
+                  <!-- populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Sidebar -->
+        <div>
+          <div class="card"
+            style="padding:28px;margin-bottom:24px;background:linear-gradient(135deg,var(--cream),var(--cream-dark));border:none;">
+            <h3 style="font-weight:700;margin-bottom:16px;">🌟 Why Volunteer?</h3>
+            <ul style="padding:0;">
+              <li style="display:flex;gap:10px;margin-bottom:12px;font-size:.93rem;">
+                <span style="color:var(--green-deeper);font-size:1.1rem;">✅</span>
+                <span>Gain meaningful experience in animal care and hostel management.</span>
+              </li>
+              <li style="display:flex;gap:10px;margin-bottom:12px;font-size:.93rem;">
+                <span style="color:var(--green-deeper);font-size:1.1rem;">✅</span>
+                <span>Build teamwork, communication, and organizational skills.</span>
+              </li>
+              <li style="display:flex;gap:10px;margin-bottom:12px;font-size:.93rem;">
+                <span style="color:var(--green-deeper);font-size:1.1rem;">✅</span>
+                <span>Receive a certificate of appreciation for CEP contributions.</span>
+              </li>
+              <li style="display:flex;gap:10px;margin-bottom:12px;font-size:.93rem;">
+                <span style="color:var(--green-deeper);font-size:1.1rem;">✅</span>
+                <span>Make a positive impact on pets and the local community.</span>
+              </li>
+              <li style="display:flex;gap:10px;margin-bottom:12px;font-size:.93rem;">
+                <span style="color:var(--green-deeper);font-size:1.1rem;">✅</span>
+                <span>Flexible scheduling that fits around your studies or work.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding:28px;margin-bottom:24px;">
+            <h3 style="font-weight:700;margin-bottom:16px;">📋 Volunteer Guidelines</h3>
+            <ul style="padding:0;">
+              <li style="display:flex;gap:10px;margin-bottom:10px;font-size:.9rem;color:var(--text-mid);">
+                <span>🐾</span><span>Arrive on time and check in with the volunteer coordinator.</span>
+              </li>
+              <li style="display:flex;gap:10px;margin-bottom:10px;font-size:.9rem;color:var(--text-mid);">
+                <span>🐾</span><span>Follow all safety and hygiene protocols when handling animals.</span>
+              </li>
+              <li style="display:flex;gap:10px;margin-bottom:10px;font-size:.9rem;color:var(--text-mid);">
+                <span>🐾</span><span>Do not share personal information of pet owners with others.</span>
+              </li>
+              <li style="display:flex;gap:10px;margin-bottom:10px;font-size:.9rem;color:var(--text-mid);">
+                <span>🐾</span><span>Report any concerns or incidents to the coordinator immediately.</span>
+              </li>
+              <li style="display:flex;gap:10px;margin-bottom:10px;font-size:.9rem;color:var(--text-mid);">
+                <span>🐾</span><span>Treat all animals with kindness, patience, and respect.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding:28px;border:2px solid var(--green);">
+            <h3 style="font-weight:700;margin-bottom:12px;">👥 Current Volunteer Count</h3>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <div
+                style="font-family:var(--font-head);font-size:3rem;font-weight:800;color:var(--green-darker,var(--green-deep,var(--green-deeper)));"
+                id="volunteerCount">0</div>
+              <p style="font-size:.9rem;color:var(--text-mid);">Volunteers currently registered on this device.<br><em
+                  style="font-size:.8rem;">Includes both sample and submitted data.</em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Scripts ──────────────────────────────────────────── -->
+  <script>
+    // ── Sample data ─────────────────────────────────────────
+    const SAMPLE_VOLUNTEERS = [
+      { id: 'S1', name: 'Ahmad Faris', phone: '012-1111111', email: 'ahmad@sample.com', availability: 'Mon, Wed, Fri', timeSlot: 'Morning (8am–12pm)', activities: 'Feeding, Walking dogs', createdAt: '2024-03-01T08:00:00.000Z' },
+      { id: 'S2', name: 'Nurul Aini', phone: '013-2222222', email: 'nurul@sample.com', availability: 'Sat, Sun', timeSlot: 'Afternoon (12pm–5pm)', activities: 'Grooming, Awareness campaigns', createdAt: '2024-03-05T09:00:00.000Z' },
+      { id: 'S3', name: 'Raj Kumar', phone: '016-3333333', email: 'raj@sample.com', availability: 'Tue, Thu, Sat', timeSlot: 'Flexible (Any time)', activities: 'Cleaning, Daily hostel activities', createdAt: '2024-03-10T10:00:00.000Z' },
+    ];
+
+    // ── Init ─────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      initTabs();
+      initAvailabilityPicker();
+      updateVolTable();
+      updateVolCount();
+      loadCloudVolunteers();
+
+      // Handle form submit
+      document.getElementById('volunteerForm')?.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Custom validations
+        const days = document.getElementById('vAvailability').value;
+        const activities = [...document.querySelectorAll('input[name="activity"]:checked')].map(i => i.value);
+
+        if (!days) {
+          document.getElementById('availError').style.display = 'block';
+          document.getElementById('vAvailability').classList.add('invalid');
+        } else {
+          document.getElementById('availError').style.display = 'none';
+          document.getElementById('vAvailability').classList.remove('invalid');
+        }
+        if (!activities.length) {
+          document.getElementById('activityError').style.display = 'block';
+        } else {
+          document.getElementById('activityError').style.display = 'none';
+        }
+
+        if (!validateForm(this) || !days || !activities.length) {
+          showToast('Please fill in all required fields.', 'error');
+          return;
+        }
+
+        // Check consent checkbox
+        if (!document.getElementById('vConsent').checked) {
+          showToast('Please read and accept the volunteering commitment.', 'error');
+          return;
+        }
+
+        const data = {
+          name: document.getElementById('vName').value,
+          phone: document.getElementById('vPhone').value,
+          email: document.getElementById('vEmail').value,
+          age: document.getElementById('vAge').value,
+          availability: days,
+          timeSlot: document.getElementById('vTimeSlot').value,
+          activities: activities.join(', '),
+          experience: document.getElementById('vExperience').value,
+          emergName: document.getElementById('vEmergName').value,
+          emergPhone: document.getElementById('vEmergPhone').value,
+        };
+
+        storeData('volunteers', data);
+        document.getElementById('volunteerSuccess').classList.remove('hidden');
+        this.reset();
+        this.querySelectorAll('.form-control').forEach(f => f.classList.remove('invalid'));
+        document.querySelectorAll('.avail-btn').forEach(b => b.classList.remove('selected'));
+        updateVolTable();
+        updateVolCount();
+        showToast('Volunteer registration submitted!');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Search
+      filterTable('#volSearch', '#volTable');
+    });
+
+    // ── Availability picker ──────────────────────────────────
+    function initAvailabilityPicker() {
+      document.querySelectorAll('.avail-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          btn.classList.toggle('selected');
+          const selected = [...document.querySelectorAll('.avail-btn.selected')].map(b => b.dataset.day);
+          document.getElementById('vAvailability').value = selected.join(', ');
+        });
+      });
+    }
+
+    // ── Populate table ───────────────────────────────────────
+    let cloudVols = null;
+
+    async function loadCloudVolunteers() {
+      if (window.fetchRecords && window.pawsDB && window.pawsDB.isConfigured()) {
+        try {
+          const records = await window.fetchRecords('volunteers');
+          if (Array.isArray(records)) {
+            cloudVols = records;
+            updateVolTable();
+            updateVolCount();
+          }
+        } catch (err) {
+          console.warn('Error loading cloud volunteers:', err);
+        }
+      }
+    }
+
+    function updateVolTable() {
+      const tbody = document.getElementById('volTableBody');
+      if (!tbody) return;
+
+      const stored = cloudVols || getData('volunteers');
+      const all = [
+        ...SAMPLE_VOLUNTEERS.map(v => ({ ...v, _sample: true })),
+        ...stored,
+      ];
+
+      tbody.innerHTML = all.map((v, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td><strong>${v.name}</strong>${v._sample ? ' <span class="badge badge-orange">Sample</span>' : ''}</td>
+      <td>${v.phone}</td>
+      <td>${v.email}</td>
+      <td><span class="badge badge-green">${v.availability}</span></td>
+      <td>${v.timeSlot || '—'}</td>
+      <td style="max-width:200px;font-size:.82rem;">${v.activities}</td>
+      <td style="font-size:.82rem;">${v.createdAt ? new Date(v.createdAt).toLocaleDateString() : '—'}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text-light);padding:32px;">No registrations yet.</td></tr>';
+    }
+
+    function updateVolCount() {
+      const count = SAMPLE_VOLUNTEERS.length + (cloudVols || getData('volunteers')).length;
+      const el = document.getElementById('volunteerCount');
+      if (el) el.textContent = count;
+    }
+  </script>
+</body>
+
+</html>

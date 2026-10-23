@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consent & Agreement – Happy Paws & Pixels</title>
+  <meta name="description" content="Review and sign the digital consent and agreement form for your pet's stay at Happy Paws & Pixels.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+  <style>.consent-nav{flex-direction:column;gap:6px;display:flex;position:sticky;top:100px}.consent-nav-btn{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--white);cursor:pointer;color:var(--text-mid);transition:all var(--transition);text-align:left;align-items:center;gap:10px;padding:12px 16px;font-size:.88rem;font-weight:600;display:flex}.consent-nav-btn:hover{background:var(--cream);border-color:var(--green)}.consent-nav-btn.active{background:var(--green);border-color:var(--green-dark);color:var(--text-dark)}.consent-section-anchor{scroll-margin-top:120px}.read-indicator{border-radius:99px;align-items:center;gap:6px;padding:3px 10px;font-size:.78rem;font-weight:700;display:inline-flex}.read-indicator.read{color:#2e7d32;background:#e8f5e9}.read-indicator.unread{color:#e65100;background:#fff3e0}.big-checkbox{width:22px;height:22px;accent-color:var(--green-dark);flex-shrink:0;margin-top:2px}</style>
+  <script type="module" crossorigin src="/assets/styles-BITv2cDd.js"></script>
+  <script type="module" crossorigin src="/assets/app-49mPpPPx.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/styles-CBrmBBHo.css">
+</head>
+<body>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Owner Agreement</span>
+    <h1>Consent & Agreement Form 📋</h1>
+    <p>Please read through all sections carefully before providing your digital consent for your pet's stay.</p>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="sample-banner">⚠️ This is a demonstration consent form. Replace placeholder text with your actual hostel's terms and conditions before use.</div>
+
+    <!-- Progress Tracker -->
+    <div class="card" style="padding:20px;margin-bottom:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <span style="font-weight:700;font-size:.9rem;">Reading Progress:</span>
+      <div style="flex:1;min-width:160px;">
+        <div class="progress-bar"><div class="progress-fill" id="readProgress" style="width:0%"></div></div>
+      </div>
+      <span id="readProgressText" style="font-size:.85rem;color:var(--text-mid);white-space:nowrap;">0 of 6 sections read</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:flex-start;">
+
+      <!-- Left: Nav -->
+      <div class="consent-nav" id="consentNav">
+        <p style="font-size:.8rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Sections</p>
+        <button class="consent-nav-btn active" onclick="scrollTo('sec1')">📜 1. Hostel Rules <span class="read-indicator unread" id="r1">Unread</span></button>
+        <button class="consent-nav-btn" onclick="scrollTo('sec2')">🐾 2. Pet Care Guidelines <span class="read-indicator unread" id="r2">Unread</span></button>
+        <button class="consent-nav-btn" onclick="scrollTo('sec3')">👤 3. Owner Responsibilities <span class="read-indicator unread" id="r3">Unread</span></button>
+        <button class="consent-nav-btn" onclick="scrollTo('sec4')">📝 4. Terms & Conditions <span class="read-indicator unread" id="r4">Unread</span></button>
+        <button class="consent-nav-btn" onclick="scrollTo('sec5')">🆘 5. Emergency Procedures <span class="read-indicator unread" id="r5">Unread</span></button>
+        <button class="consent-nav-btn" onclick="scrollTo('sec6')">✅ 6. Consent Form <span class="read-indicator unread" id="r6">Unread</span></button>
+      </div>
+
+      <!-- Right: Content -->
+      <div>
+
+        <!-- Section 1 -->
+        <div class="consent-block consent-section-anchor" id="sec1" data-section="1">
+          <h3><span style="background:var(--orange-light);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;">1</span> 📜 Hostel Rules & Regulations</h3>
+          <p>By registering your pet at <strong>Happy Paws & Pixels</strong>, you agree to comply with the following hostel rules:</p>
+          <ul>
+            <li>All pets must be fully vaccinated and in good health upon arrival.</li>
+            <li>Pets showing signs of illness, parasites, or contagious conditions will not be admitted.</li>
+            <li>Check-in and check-out must be within the agreed times.</li>
+            <li>Late pick-up beyond [X hours] without prior notification may result in additional charges.</li>
+            <li>The hostel reserves the right to refuse admission to any pet deemed unsuitable for communal accommodation.</li>
+            <li>Owners must provide accurate and complete information during registration.</li>
+            <li>Personal pet belongings (toys, beds, food bowls) must be clearly labelled.</li>
+            <li>The hostel is not responsible for the loss or damage of personal belongings.</li>
+            <li>All pets must be treated humanely and with respect by all staff and volunteers.</li>
+            <li>Any breach of rules may result in early termination of the pet's stay at the owner's expense.</li>
+          </ul>
+          <p style="margin-top:12px;font-style:italic;font-size:.85rem;color:var(--text-light);">⚠️ Replace bracketed text and edit these rules to reflect your actual hostel policies.</p>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="consent-block consent-section-anchor" id="sec2" data-section="2">
+          <h3><span style="background:var(--orange-light);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;">2</span> 🐾 Pet Care Guidelines</h3>
+          <p>The hostel will provide the following standard care during your pet's stay:</p>
+          <ul>
+            <li>Regular scheduled feeding based on the owner's provided diet plan or our standard menu.</li>
+            <li>Fresh, clean drinking water available at all times.</li>
+            <li>Daily exercise and supervised playtime appropriate for the pet's breed and health.</li>
+            <li>Daily observation for signs of discomfort, illness, or abnormal behaviour.</li>
+            <li>Basic grooming and hygiene maintenance including brushing and bathing if required.</li>
+            <li>Administration of medication as directed by the owner (provided with clear instructions and labelling).</li>
+            <li>Separate accommodation for dogs and cats to minimize stress.</li>
+            <li>Enrichment activities appropriate to species and individual temperament.</li>
+          </ul>
+          <div class="alert alert-info" style="margin-top:16px;">
+            ℹ️ Owners with pets requiring special care must notify the hostel prior to check-in. Additional charges may apply for specialized care services.
+          </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="consent-block consent-section-anchor" id="sec3" data-section="3">
+          <h3><span style="background:var(--orange-light);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;">3</span> 👤 Owner Responsibilities</h3>
+          <p>As the owner or authorized guardian of the pet, I acknowledge and accept the following responsibilities:</p>
+          <ul>
+            <li>I confirm that my pet is healthy, vaccinated, and free from contagious diseases.</li>
+            <li>I have provided accurate information regarding my pet's health, diet, behaviour, and medical history.</li>
+            <li>I will ensure my pet is picked up on or before the agreed check-out date and time.</li>
+            <li>I am financially responsible for any veterinary expenses incurred during my pet's stay due to illness, injury, or emergency.</li>
+            <li>I agree to be contactable during my pet's stay and will respond to communications promptly.</li>
+            <li>I have provided an accurate and reachable emergency contact.</li>
+            <li>I understand that the hostel is not liable for pre-existing medical conditions that may deteriorate during the stay.</li>
+            <li>I consent to the hostel taking photographs/videos of my pet for welfare monitoring and, with permission, for promotional use.</li>
+          </ul>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="consent-block consent-section-anchor" id="sec4" data-section="4">
+          <h3><span style="background:var(--orange-light);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;">4</span> 📝 Terms & Conditions</h3>
+          <p><strong>Payment & Cancellation:</strong></p>
+          <ul>
+            <li>Payment must be made upon check-in or as per the agreed payment schedule.</li>
+            <li>Cancellations made more than [48 hours] before check-in: Full refund.</li>
+            <li>Cancellations within [48 hours] of check-in: [50%] charge may apply.</li>
+            <li>No-shows will be charged the full stay amount.</li>
+          </ul>
+          <p style="margin-top:12px;"><strong>Liability:</strong></p>
+          <ul>
+            <li>The hostel maintains all reasonable standards of care, but cannot guarantee complete prevention of illness or injury.</li>
+            <li>The hostel is not liable for loss of or damage to personal pet belongings.</li>
+            <li>The hostel reserves the right to make decisions in the pet's best interest if the owner is unreachable.</li>
+          </ul>
+          <p style="margin-top:12px;"><strong>Data Privacy:</strong></p>
+          <ul>
+            <li>Personal information collected is used solely for hostel management purposes.</li>
+            <li>Data is stored securely and not shared with third parties without consent.</li>
+            <li>Owner and pet records may be retained for up to [2 years] after the last stay.</li>
+          </ul>
+          <p style="margin-top:12px;font-style:italic;font-size:.85rem;color:var(--text-light);">⚠️ Replace bracketed terms with your actual hostel's policies and consult legal guidance if necessary.</p>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="consent-block consent-section-anchor" id="sec5" data-section="5">
+          <h3><span style="background:var(--orange-light);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;">5</span> 🆘 Emergency Contact Requirements & Procedures</h3>
+          <div class="alert alert-warning" style="margin-bottom:16px;">
+            ⚠️ An accurate emergency contact is mandatory. Failure to provide one may affect your pet's ability to receive timely care.
+          </div>
+          <ul>
+            <li>The owner must provide a valid emergency contact who can be reached 24/7.</li>
+            <li>The emergency contact must be someone with authority to make decisions on behalf of the pet if the owner is unreachable.</li>
+            <li>In a medical emergency, the hostel staff will attempt to contact the owner first, then the emergency contact.</li>
+            <li>If neither party is reachable within [30 minutes], the hostel may take the pet to a veterinary clinic for assessment.</li>
+            <li>All emergency veterinary costs are the owner's responsibility.</li>
+            <li>The hostel will document and report all incidents to the owner at the earliest opportunity.</li>
+          </ul>
+          <div class="card" style="background:var(--cream);border:1px solid var(--border);padding:16px;margin-top:16px;">
+            <strong style="font-size:.9rem;">🏥 Hostel Emergency Vet Contact:</strong>
+            <p style="font-size:.88rem;color:var(--text-mid);margin-top:6px;">[Vet Clinic Name] – [Phone Number] – [Address]<br><em style="font-size:.8rem;">Replace with actual partner veterinary clinic details.</em></p>
+          </div>
+        </div>
+
+        <!-- Section 6: Consent Form -->
+        <div class="consent-block consent-section-anchor" id="sec6" data-section="6" style="border:2px solid var(--green);">
+          <h3><span style="background:var(--green);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;">✅</span> 6. Digital Consent & Agreement</h3>
+
+          <div id="consentSuccess" class="alert alert-success hidden">
+            🎉 Consent submitted successfully! Thank you. Your consent status is now marked as <strong>Signed</strong>.
+          </div>
+
+          <div id="consentAlreadySigned" class="alert alert-info hidden">
+            ℹ️ You have already submitted consent for this session. To submit again, please clear the form below.
+          </div>
+
+          <form id="consentForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Your Full Name <span class="required">*</span></label>
+                <input type="text" class="form-control" id="conName" placeholder="Enter your full legal name" required>
+                <span class="form-error">Please enter your name.</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Pet Name <span class="required">*</span></label>
+                <input type="text" class="form-control" id="conPetName" placeholder="Your pet's registered name" required>
+                <span class="form-error">Please enter your pet's name.</span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Your IC / ID Number</label>
+                <input type="text" class="form-control" id="conIcNum" placeholder="e.g. 900101-01-1234">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date of Signing <span class="required">*</span></label>
+                <input type="date" class="form-control" id="conDate" required>
+                <span class="form-error">Please select the signing date.</span>
+              </div>
+            </div>
+
+            <div style="background:var(--cream-dark);border-radius:var(--radius-sm);padding:20px;margin-bottom:20px;">
+              <p style="font-weight:700;margin-bottom:14px;font-size:.95rem;">Please confirm all of the following:</p>
+
+              <div class="form-check" style="margin-bottom:14px;">
+                <input type="checkbox" class="big-checkbox" id="chk1" name="consent_checks">
+                <label class="form-check-label" for="chk1">
+                  <strong>I have read and understood all sections</strong> of the Happy Paws & Pixels Hostel Rules & Regulations.
+                </label>
+              </div>
+              <div class="form-check" style="margin-bottom:14px;">
+                <input type="checkbox" class="big-checkbox" id="chk2" name="consent_checks">
+                <label class="form-check-label" for="chk2">
+                  <strong>I agree to the Pet Care Guidelines</strong> and understand the standard of care provided.
+                </label>
+              </div>
+              <div class="form-check" style="margin-bottom:14px;">
+                <input type="checkbox" class="big-checkbox" id="chk3" name="consent_checks">
+                <label class="form-check-label" for="chk3">
+                  <strong>I accept full Owner Responsibilities</strong> as outlined in Section 3 of this agreement.
+                </label>
+              </div>
+              <div class="form-check" style="margin-bottom:14px;">
+                <input type="checkbox" class="big-checkbox" id="chk4" name="consent_checks">
+                <label class="form-check-label" for="chk4">
+                  <strong>I accept the Terms & Conditions</strong> including payment, cancellation, and liability policies.
+                </label>
+              </div>
+              <div class="form-check" style="margin-bottom:14px;">
+                <input type="checkbox" class="big-checkbox" id="chk5" name="consent_checks">
+                <label class="form-check-label" for="chk5">
+                  <strong>I have provided an accurate Emergency Contact</strong> and authorize the hostel to make emergency veterinary decisions if I am unreachable.
+                </label>
+              </div>
+              <div class="form-check" style="margin-bottom:0;">
+                <input type="checkbox" class="big-checkbox" id="chkAll" required>
+                <label class="form-check-label" for="chkAll">
+                  <strong>✅ I CONFIRM that I have read, understood, and agreed to all terms and conditions above. I provide my digital consent for my pet's stay at Happy Paws & Pixels.</strong>
+                </label>
+              </div>
+            </div>
+
+            <!-- Consent Status Indicator -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+              <div>
+                <p style="font-size:.85rem;font-weight:600;margin-bottom:4px;">Consent Status:</p>
+                <div class="consent-status pending" id="consentStatusBadge">
+                  <span class="consent-dot"></span> Pending – Not Yet Confirmed
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <p style="font-size:.82rem;color:var(--text-light);">All checkboxes must be ticked<br>before consent can be submitted.</p>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-green btn-block btn-lg" id="consentSubmitBtn" disabled>
+              📝 Submit Digital Consent
+            </button>
+            <p style="text-align:center;font-size:.8rem;color:var(--text-light);margin-top:12px;">
+              ⚠️ This is a digital acknowledgement. In a real system, this would generate a timestamped consent record.
+            </p>
+          </form>
+        </div>
+
+        <!-- Admin: Consent Records -->
+        <div class="consent-block" style="margin-top:32px;">
+          <h3>🔐 Consent Records (Admin View)</h3>
+          <div class="sample-banner" style="margin-bottom:16px;">⚠️ Sample and real consent records shown. Only authorized admins should view this section in production.</div>
+          <div class="table-wrap">
+            <table id="consentTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Owner Name</th>
+                  <th>Pet Name</th>
+                  <th>Date Signed</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="consentTableBody"><!-- JS --></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ── Sample consent records ────────────────────────────────
+const SAMPLE_CONSENTS = [
+  { name: 'Ahmad Faris', petName: 'Buddy', dateSigned: '2024-11-20', _sample: true, status: 'Pending' },
+  { name: 'Nurul Aini',  petName: 'Luna',  dateSigned: '2024-11-10', _sample: true, status: 'Signed' },
+  { name: 'Raj Kumar',   petName: 'Max',   dateSigned: '2024-11-01', _sample: true, status: 'Signed' },
+];
+
+// ── Read section tracking ─────────────────────────────────
+const readSections = new Set();
+const totalSections = 6;
+
+function markRead(secNum) {
+  readSections.add(secNum);
+  const indicator = document.getElementById(`r${secNum}`);
+  if (indicator) {
+    indicator.className = 'read-indicator read';
+    indicator.textContent = '✓ Read';
+  }
+  const pct = Math.round((readSections.size / totalSections) * 100);
+  document.getElementById('readProgress').style.width = pct + '%';
+  document.getElementById('readProgressText').textContent = `${readSections.size} of ${totalSections} sections read`;
+}
+
+// ── Init ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Set today's date
+  document.getElementById('conDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('conDate').max   = new Date().toISOString().split('T')[0];
+
+  // Intersection Observer for auto-marking sections read
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const sec = entry.target.dataset.section;
+        if (sec) markRead(sec);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('[data-section]').forEach(el => observer.observe(el));
+
+  // Checkbox interaction – enable submit only when all checked
+  const checkboxes = document.querySelectorAll('input[name="consent_checks"], #chkAll');
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', updateConsentStatus);
+  });
+
+  // Consent form submit
+  document.getElementById('consentForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const allChecked = [...document.querySelectorAll('input[name="consent_checks"]')].every(c => c.checked)
+                    && document.getElementById('chkAll').checked;
+
+    if (!allChecked) {
+      showToast('Please tick all checkboxes to confirm consent.', 'error');
+      return;
+    }
+
+    if (!validateForm(this)) {
+      showToast('Please fill in all required fields.', 'error');
+      return;
+    }
+
+    const data = {
+      name:      document.getElementById('conName').value,
+      petName:   document.getElementById('conPetName').value,
+      icNum:     document.getElementById('conIcNum').value,
+      dateSigned: document.getElementById('conDate').value,
+      status:    'Signed',
+    };
+
+    storeData('consents', data);
+    document.getElementById('consentSuccess').classList.remove('hidden');
+    document.getElementById('consentStatusBadge').className = 'consent-status signed';
+    document.getElementById('consentStatusBadge').innerHTML = '<span class="consent-dot"></span> ✅ Signed – Consent Confirmed';
+    document.getElementById('consentSubmitBtn').disabled = true;
+
+    updateConsentTable();
+    showToast('Consent submitted successfully!');
+  });
+
+  updateConsentTable();
+  loadCloudConsents();
+});
+
+function updateConsentStatus() {
+  const allChecked = [...document.querySelectorAll('input[name="consent_checks"]')].every(c => c.checked)
+                  && document.getElementById('chkAll').checked;
+  document.getElementById('consentSubmitBtn').disabled = !allChecked;
+  if (allChecked) {
+    document.getElementById('consentStatusBadge').className = 'consent-status signed';
+    document.getElementById('consentStatusBadge').innerHTML = '<span class="consent-dot"></span> Ready to Submit';
+  } else {
+    document.getElementById('consentStatusBadge').className = 'consent-status pending';
+    document.getElementById('consentStatusBadge').innerHTML = '<span class="consent-dot"></span> Pending – Not Yet Confirmed';
+  }
+}
+
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+let cloudConsents = null;
+
+async function loadCloudConsents() {
+  if (window.fetchRecords && window.pawsDB && window.pawsDB.isConfigured()) {
+    try {
+      const records = await window.fetchRecords('consents');
+      if (Array.isArray(records)) {
+        cloudConsents = records;
+        updateConsentTable();
+      }
+    } catch (err) {
+      console.warn('Error loading cloud consents:', err);
+    }
+  }
+}
+
+function updateConsentTable() {
+  const tbody = document.getElementById('consentTableBody');
+  if (!tbody) return;
+  const stored = cloudConsents || getData('consents');
+  const all    = [...SAMPLE_CONSENTS, ...stored];
+  tbody.innerHTML = all.map((c, i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${c.name}</strong>${c._sample ? ' <span class="badge badge-orange">Sample</span>' : ''}</td>
+      <td>${c.petName}</td>
+      <td>${c.dateSigned ? new Date(c.dateSigned+'T00:00:00').toLocaleDateString('en-MY') : (c.createdAt ? new Date(c.createdAt).toLocaleDateString() : '—')}</td>
+      <td>
+        ${c.status === 'Signed'
+          ? '<span class="consent-status signed"><span class="consent-dot"></span>Signed</span>'
+          : '<span class="consent-status pending"><span class="consent-dot"></span>Pending</span>'}
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-light);padding:32px;">No consent records yet.</td></tr>';
+}
+</script>
+</body>
+</html>

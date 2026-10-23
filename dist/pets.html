@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet & Owner Registration – Balaji Pet hostel </title>
+  <meta name="description" content="Register your pet and manage stay records at Happy Paws & Pixels Digital Pet Hostel.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+  <script type="module" crossorigin src="/assets/styles-BITv2cDd.js"></script>
+  <script type="module" crossorigin src="/assets/app-49mPpPPx.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/styles-CBrmBBHo.css">
+</head>
+<body>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Pet Records</span>
+    <h1>Pet & Owner Registration 🐾</h1>
+    <p>Register your pet and manage their stay records. All information is stored securely for the duration of the visit.</p>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+
+    <div class="tab-group" id="mainTabGroup">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="register">📝 Register Pet</button>
+        <button class="tab-btn" data-tab="records">📋 Pet Records</button>
+        <button class="tab-btn" data-tab="stays">🏠 Stay Management</button>
+      </div>
+
+      <!-- ══════ TAB: REGISTER PET ══════════════════════════ -->
+      <div class="tab-content active" data-tab-content="register">
+        <div class="sample-banner">⚠️ Sample records are shown for demonstration. Your real submissions are saved locally in this browser.</div>
+        <div class="grid-2" style="align-items:flex-start;gap:40px;">
+
+          <!-- Form -->
+          <div class="card" style="padding:36px;">
+            <h2 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:6px;">Pet Registration Form</h2>
+            <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:24px;">Fill in the details below to register your pet. Fields marked with * are required.</p>
+
+            <div id="petSuccess" class="alert alert-success hidden">
+              🎉 Pet registered successfully! Please proceed to the Consent & Agreement page to complete the consent form.
+              <a href="consent.html" class="btn btn-sm btn-green" style="margin-left:12px;">Go to Consent →</a>
+            </div>
+
+            <form id="petForm" novalidate>
+              <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--cream-dark);">🐕 Pet Information</h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Pet Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="pName" placeholder="e.g. Buddy" required>
+                  <span class="form-error">Please enter your pet's name.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Pet Type <span class="required">*</span></label>
+                  <select class="form-control" id="pType" required>
+                    <option value="">Select type…</option>
+                    <option value="🐕 Dog">🐕 Dog</option>
+                    <option value="🐈 Cat">🐈 Cat</option>
+                    <option value="🐰 Rabbit">🐰 Rabbit</option>
+                    <option value="🐹 Hamster">🐹 Hamster</option>
+                    <option value="🦜 Bird">🦜 Bird</option>
+                    <option value="Other">🐾 Other</option>
+                  </select>
+                  <span class="form-error">Please select your pet's type.</span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Breed (if applicable)</label>
+                  <input type="text" class="form-control" id="pBreed" placeholder="e.g. Golden Retriever">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Age <span class="required">*</span></label>
+                  <div style="display:flex;gap:8px;">
+                    <input type="number" class="form-control" id="pAgeYears" placeholder="Years" min="0" max="30" required style="flex:1;">
+                    <input type="number" class="form-control" id="pAgeMonths" placeholder="Months" min="0" max="11" style="flex:1;">
+                  </div>
+                  <span class="form-error">Please enter your pet's age.</span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Gender</label>
+                  <select class="form-control" id="pGender">
+                    <option value="">Select…</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Unknown</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Colour / Markings</label>
+                  <input type="text" class="form-control" id="pColour" placeholder="e.g. Golden with white patch">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Vaccination Status <span class="required">*</span></label>
+                  <select class="form-control" id="pVaccination" required>
+                    <option value="">Select status…</option>
+                    <option value="Up to date">✅ Up to date</option>
+                    <option value="Partially vaccinated">⚠️ Partially vaccinated</option>
+                    <option value="Not vaccinated">❌ Not vaccinated</option>
+                    <option value="Unknown">❓ Unknown</option>
+                  </select>
+                  <span class="form-error">Please select vaccination status.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Microchip Number (if any)</label>
+                  <input type="text" class="form-control" id="pMicrochip" placeholder="e.g. 123456789012345">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Special Care Requirements</label>
+                <textarea class="form-control" id="pSpecialCare" placeholder="e.g. Allergic to chicken, takes medication twice daily, fearful of loud noises…" rows="3"></textarea>
+              </div>
+
+              <h3 style="font-size:1rem;font-weight:700;margin:24px 0 16px;padding-bottom:10px;border-bottom:2px solid var(--cream-dark);">👤 Owner Information</h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Owner Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="oName" placeholder="Your full name" required>
+                  <span class="form-error">Please enter owner name.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Relationship to Pet <span class="required">*</span></label>
+                  <select class="form-control" id="oRelation" required>
+                    <option value="">Select…</option>
+                    <option>Owner</option>
+                    <option>Guardian / Caretaker</option>
+                    <option>Family Member</option>
+                    <option>Friend</option>
+                    <option>Other</option>
+                  </select>
+                  <span class="form-error">Please select relationship.</span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Contact Number <span class="required">*</span></label>
+                  <input type="tel" class="form-control" id="oPhone" placeholder="e.g. 012-3456789" required data-type="phone">
+                  <span class="form-error">Please enter a valid phone number.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address <span class="required">*</span></label>
+                  <input type="email" class="form-control" id="oEmail" placeholder="your@email.com" required>
+                  <span class="form-error">Please enter a valid email.</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Home Address <span class="required">*</span></label>
+                <textarea class="form-control" id="oAddress" placeholder="Your full home address…" rows="2" required></textarea>
+                <span class="form-error">Please enter your address.</span>
+              </div>
+
+              <h3 style="font-size:1rem;font-weight:700;margin:24px 0 16px;padding-bottom:10px;border-bottom:2px solid var(--cream-dark);">🆘 Emergency Contact</h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Emergency Contact Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="eContactName" placeholder="Emergency contact's full name" required>
+                  <span class="form-error">Please enter emergency contact name.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Relationship</label>
+                  <input type="text" class="form-control" id="eContactRel" placeholder="e.g. Spouse, Parent, Friend">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Emergency Phone <span class="required">*</span></label>
+                  <input type="tel" class="form-control" id="eContactPhone" placeholder="Emergency contact number" required data-type="phone">
+                  <span class="form-error">Please enter emergency phone number.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Vet / Clinic Name</label>
+                  <input type="text" class="form-control" id="pVetName" placeholder="Regular vet or clinic name">
+                </div>
+              </div>
+
+              <h3 style="font-size:1rem;font-weight:700;margin:24px 0 16px;padding-bottom:10px;border-bottom:2px solid var(--cream-dark);">📅 Stay Details</h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Check-in Date <span class="required">*</span></label>
+                  <input type="date" class="form-control" id="sCheckIn" required>
+                  <span class="form-error">Please select check-in date.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Expected Check-out Date <span class="required">*</span></label>
+                  <input type="date" class="form-control" id="sCheckOut" required>
+                  <span class="form-error">Please select check-out date.</span>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg">🐾 Register Pet</button>
+            </form>
+          </div>
+
+          <!-- Quick Info Sidebar -->
+          <div>
+            <div class="card" style="padding:24px;margin-bottom:20px;background:linear-gradient(135deg,var(--orange-light),var(--cream-dark));border:none;">
+              <h3 style="font-weight:700;margin-bottom:14px;">📌 What You'll Need</h3>
+              <ul style="padding:0;">
+                <li style="display:flex;gap:8px;margin-bottom:10px;font-size:.9rem;"><span>🐾</span><span>Pet's vaccination records</span></li>
+                <li style="display:flex;gap:8px;margin-bottom:10px;font-size:.9rem;"><span>🐾</span><span>Owner's contact information</span></li>
+                <li style="display:flex;gap:8px;margin-bottom:10px;font-size:.9rem;"><span>🐾</span><span>Emergency contact details</span></li>
+                <li style="display:flex;gap:8px;margin-bottom:10px;font-size:.9rem;"><span>🐾</span><span>Details of any special care needs</span></li>
+                <li style="display:flex;gap:8px;margin-bottom:10px;font-size:.9rem;"><span>🐾</span><span>Preferred check-in and check-out dates</span></li>
+              </ul>
+            </div>
+
+            <!-- Pet Profiles Preview -->
+            <div style="margin-bottom:16px;">
+              <h3 style="font-weight:700;margin-bottom:14px;">🐾 Recently Registered Pets</h3>
+              <div id="petProfilesPreview"><!-- filled by JS --></div>
+            </div>
+
+            <div class="card" style="padding:20px;border:2px solid var(--green);text-align:center;">
+              <div style="font-size:2.5rem;margin-bottom:8px;">📋</div>
+              <h4 style="font-weight:700;margin-bottom:6px;">Next Step: Consent Form</h4>
+              <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:14px;">After registering your pet, please complete the digital consent & agreement form.</p>
+              <a href="consent.html" class="btn btn-green btn-sm">Go to Consent Form →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ TAB: PET RECORDS ═══════════════════════════ -->
+      <div class="tab-content" data-tab-content="records">
+        <div class="sample-banner">⚠️ Sample records are marked. Real records are stored in browser localStorage.</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+          <h3 style="font-weight:700;">Registered Pets & Owners</h3>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <div class="search-bar" style="max-width:260px;">
+              <span>🔍</span>
+              <input type="text" placeholder="Search pets or owners…" id="petSearch">
+            </div>
+            <select class="form-control" id="petTypeFilter" style="width:auto;padding:8px 12px;border-radius:99px;font-size:.85rem;">
+              <option value="">All Types</option>
+              <option>🐕 Dog</option>
+              <option>🐈 Cat</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="petTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Pet Name</th>
+                <th>Type</th>
+                <th>Breed</th>
+                <th>Age</th>
+                <th>Owner</th>
+                <th>Owner Phone</th>
+                <th>Vaccination</th>
+                <th>Special Care</th>
+                <th>Registered</th>
+              </tr>
+            </thead>
+            <tbody id="petTableBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══════ TAB: STAY MANAGEMENT ═══════════════════════ -->
+      <div class="tab-content" data-tab-content="stays">
+        <div class="sample-banner">⚠️ Sample stay records shown. Real data from registrations appears below.</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+          <h3 style="font-weight:700;">Stay Management</h3>
+          <div class="search-bar" style="max-width:260px;">
+            <span>🔍</span>
+            <input type="text" placeholder="Search stays…" id="staySearch">
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="stayTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Pet Name</th>
+                <th>Owner</th>
+                <th>Check-in</th>
+                <th>Expected Check-out</th>
+                <th>Actual Check-out</th>
+                <th>Nights</th>
+                <th>Stay Status</th>
+                <th>Consent</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="stayTableBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Check-out Modal ──────────────────────────────────── -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>🏠 Update Check-out</h3>
+      <button class="modal-close" onclick="closeModal('checkoutModal')">×</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Pet Name</label>
+      <input type="text" class="form-control" id="modalPetName" readonly>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Actual Check-out Date <span class="required">*</span></label>
+      <input type="date" class="form-control" id="modalCheckout">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Stay Status</label>
+      <select class="form-control" id="modalStatus">
+        <option value="upcoming">Upcoming</option>
+        <option value="active">Active (Checked In)</option>
+        <option value="completed">Completed (Checked Out)</option>
+      </select>
+    </div>
+    <button class="btn btn-green btn-block" onclick="updateStay()">✅ Update Stay</button>
+  </div>
+</div>
+
+<script>
+// ── Sample Pet Data ──────────────────────────────────────
+const SAMPLE_PETS = [
+  {
+    id:'SP1', pName:'Buddy', pType:'🐕 Dog', pBreed:'Golden Retriever', pAgeYears:3, pAgeMonths:2, pGender:'Male', pColour:'Golden', pVaccination:'Up to date', pMicrochip:'123456789012345', pSpecialCare:'Loves fetch, afraid of thunder',
+    oName:'Ahmad Faris', oPhone:'012-1111111', oEmail:'ahmad@sample.com', oAddress:'123 Sample Street, KL', oRelation:'Owner',
+    eContactName:'Siti Faris', eContactRel:'Spouse', eContactPhone:'012-9999111', pVetName:'PetCare Clinic KL',
+    sCheckIn:'2024-12-01', sCheckOut:'2024-12-07', stayStatus:'upcoming', checkoutDate:'', consentSigned: false,
+    createdAt:'2024-11-20T08:00:00.000Z', _sample:true
+  },
+  {
+    id:'SP2', pName:'Luna', pType:'🐈 Cat', pBreed:'Persian', pAgeYears:2, pAgeMonths:0, pGender:'Female', pColour:'White', pVaccination:'Up to date', pMicrochip:'', pSpecialCare:'Indoor cat, needs quiet room',
+    oName:'Nurul Aini', oPhone:'013-2222222', oEmail:'nurul@sample.com', oAddress:'456 Sample Ave, PJ', oRelation:'Owner',
+    eContactName:'Haris Aini', eContactRel:'Husband', eContactPhone:'013-8888222', pVetName:'Cat Specialist PJ',
+    sCheckIn:'2024-11-25', sCheckOut:'2024-11-30', stayStatus:'active', checkoutDate:'', consentSigned: true,
+    createdAt:'2024-11-10T09:00:00.000Z', _sample:true
+  },
+  {
+    id:'SP3', pName:'Max', pType:'🐕 Dog', pBreed:'German Shepherd', pAgeYears:5, pAgeMonths:6, pGender:'Male', pColour:'Black & Tan', pVaccination:'Up to date', pMicrochip:'987654321098765', pSpecialCare:'No other dogs, on joint supplement',
+    oName:'Raj Kumar', oPhone:'016-3333333', oEmail:'raj@sample.com', oAddress:'789 Sample Road, Shah Alam', oRelation:'Owner',
+    eContactName:'Meena Kumar', eContactRel:'Wife', eContactPhone:'016-7777333', pVetName:'Shah Alam Vet',
+    sCheckIn:'2024-11-10', sCheckOut:'2024-11-15', stayStatus:'completed', checkoutDate:'2024-11-15', consentSigned: true,
+    createdAt:'2024-11-01T10:00:00.000Z', _sample:true
+  },
+];
+
+let currentStayIndex = null;
+
+// ── Init ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initTabs();
+
+  // Set min date for check-in
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('sCheckIn').min = today;
+  document.getElementById('sCheckOut').min = today;
+
+  document.getElementById('sCheckIn')?.addEventListener('change', function() {
+    document.getElementById('sCheckOut').min = this.value;
+  });
+
+  updatePetTable();
+  updateStayTable();
+  updatePetProfilesPreview();
+  loadCloudPets();
+
+  // Pet form submission
+  document.getElementById('petForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Validate checkout after checkin
+    const ci = document.getElementById('sCheckIn').value;
+    const co = document.getElementById('sCheckOut').value;
+    if (ci && co && co <= ci) {
+      document.getElementById('sCheckOut').classList.add('invalid');
+      showToast('Check-out date must be after check-in date.', 'error');
+      return;
+    }
+
+    if (!validateForm(this)) {
+      showToast('Please fill in all required fields.', 'error');
+      return;
+    }
+
+    const data = {
+      pName:        document.getElementById('pName').value,
+      pType:        document.getElementById('pType').value,
+      pBreed:       document.getElementById('pBreed').value,
+      pAgeYears:    document.getElementById('pAgeYears').value,
+      pAgeMonths:   document.getElementById('pAgeMonths').value,
+      pGender:      document.getElementById('pGender').value,
+      pColour:      document.getElementById('pColour').value,
+      pVaccination: document.getElementById('pVaccination').value,
+      pMicrochip:   document.getElementById('pMicrochip').value,
+      pSpecialCare: document.getElementById('pSpecialCare').value,
+      oName:        document.getElementById('oName').value,
+      oRelation:    document.getElementById('oRelation').value,
+      oPhone:       document.getElementById('oPhone').value,
+      oEmail:       document.getElementById('oEmail').value,
+      oAddress:     document.getElementById('oAddress').value,
+      eContactName: document.getElementById('eContactName').value,
+      eContactRel:  document.getElementById('eContactRel').value,
+      eContactPhone:document.getElementById('eContactPhone').value,
+      pVetName:     document.getElementById('pVetName').value,
+      sCheckIn:     document.getElementById('sCheckIn').value,
+      sCheckOut:    document.getElementById('sCheckOut').value,
+      stayStatus:   'upcoming',
+      checkoutDate: '',
+      consentSigned: false,
+    };
+
+    storeData('pets', data);
+    document.getElementById('petSuccess').classList.remove('hidden');
+    this.reset();
+    updatePetTable();
+    updateStayTable();
+    updatePetProfilesPreview();
+    showToast('Pet registered successfully!');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Search / filter
+  filterTable('#petSearch', '#petTable');
+  filterTable('#staySearch', '#stayTable');
+
+  document.getElementById('petTypeFilter')?.addEventListener('change', function() {
+    const filter = this.value.toLowerCase();
+    document.querySelectorAll('#petTable tbody tr').forEach(row => {
+      const type = row.cells[2]?.textContent.toLowerCase() || '';
+      row.style.display = !filter || type.includes(filter.replace(/[^\w]/g,'')) ? '' : 'none';
+    });
+  });
+
+  // Direct URL hash tab handling
+  function checkHashTab() {
+    const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+    const group = document.getElementById('mainTabGroup');
+    if (group && ['records', 'stays', 'register'].includes(hash)) {
+      if (typeof window.switchTab === 'function') {
+        window.switchTab(group, hash);
+      }
+      updatePetTable();
+      updateStayTable();
+    }
+  }
+
+  checkHashTab();
+  window.addEventListener('hashchange', checkHashTab);
+
+  // Tab buttons click refresh
+  document.querySelectorAll('#mainTabGroup .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      updatePetTable();
+      updateStayTable();
+    });
+  });
+});
+
+// ── Tables ───────────────────────────────────────────────
+let cloudPets = null;
+
+async function loadCloudPets() {
+  if (window.fetchRecords && window.pawsDB && window.pawsDB.isConfigured()) {
+    try {
+      const records = await window.fetchRecords('pets');
+      if (Array.isArray(records) && records.length > 0) {
+        cloudPets = records;
+        updatePetTable();
+        updateStayTable();
+        updatePetProfilesPreview();
+      }
+    } catch (err) {
+      console.warn('Error loading cloud pets:', err);
+    }
+  }
+}
+
+function getPetsAll() {
+  const local = (typeof getData === 'function' ? getData('pets') : []) || [];
+  if (Array.isArray(cloudPets) && cloudPets.length > 0) {
+    const ids = new Set(cloudPets.map(p => String(p.id)));
+    const uniqueLocal = local.filter(p => !ids.has(String(p.id)));
+    return [...SAMPLE_PETS, ...cloudPets, ...uniqueLocal];
+  }
+  return [...SAMPLE_PETS, ...local];
+}
+
+function updatePetTable() {
+  const tbody = document.getElementById('petTableBody');
+  if (!tbody) return;
+  const pets = getPetsAll();
+  tbody.innerHTML = pets.map((p, i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${p.pName}</strong>${p._sample ? ' <span class="badge badge-orange">Sample</span>' : ''}</td>
+      <td>${p.pType}</td>
+      <td>${p.pBreed || '—'}</td>
+      <td>${p.pAgeYears}y ${p.pAgeMonths || 0}m</td>
+      <td>${p.oName}</td>
+      <td>${p.oPhone}</td>
+      <td>${vaccBadge(p.pVaccination)}</td>
+      <td style="max-width:160px;font-size:.82rem;">${p.pSpecialCare || '—'}</td>
+      <td style="font-size:.82rem;">${p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '—'}</td>
+    </tr>
+  `).join('') || emptyRow(10);
+}
+
+function updateStayTable() {
+  const tbody = document.getElementById('stayTableBody');
+  if (!tbody) return;
+  const pets = getPetsAll();
+  tbody.innerHTML = pets.map((p, i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${p.pName}</strong>${p._sample ? ' <span class="badge badge-orange">Sample</span>' : ''}</td>
+      <td>${p.oName}</td>
+      <td>${fmt(p.sCheckIn)}</td>
+      <td>${fmt(p.sCheckOut)}</td>
+      <td>${p.checkoutDate ? fmt(p.checkoutDate) : '—'}</td>
+      <td>${calcNights(p.sCheckIn, p.sCheckOut)}</td>
+      <td>${stayBadge(p.stayStatus)}</td>
+      <td>${p.consentSigned ? '<span class="consent-status signed"><span class="consent-dot"></span>Signed</span>' : '<span class="consent-status pending"><span class="consent-dot"></span>Pending</span>'}</td>
+      <td>
+        <button class="btn btn-sm" style="background:var(--cream-dark);border:none;cursor:pointer;" onclick="openCheckoutModal(${i}, '${p.pName}', '${p.stayStatus}', '${p.checkoutDate}')">✏️ Update</button>
+      </td>
+    </tr>
+  `).join('') || emptyRow(10);
+}
+
+function updatePetProfilesPreview() {
+  const container = document.getElementById('petProfilesPreview');
+  if (!container) return;
+  const pets = getData('pets').slice(-3);
+  const sampleShown = SAMPLE_PETS.slice(0, 2);
+  const toShow = [...sampleShown, ...pets];
+  container.innerHTML = toShow.map(p => `
+    <div class="pet-profile" style="margin-bottom:12px;">
+      <div class="pet-avatar">${p.pType.split(' ')[0]}</div>
+      <div class="pet-info">
+        <h3>${p.pName} ${p._sample ? '<span class="badge badge-orange">Sample</span>' : ''}</h3>
+        <p>${p.pType} ${p.pBreed ? '· '+p.pBreed : ''}</p>
+        <p style="font-size:.8rem;">Owner: ${p.oName}</p>
+        <div class="pet-tags">
+          ${vaccBadge(p.pVaccination)}
+          ${stayBadge(p.stayStatus)}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Helpers ──────────────────────────────────────────────
+function vaccBadge(v) {
+  const map = {'Up to date':'badge-green','Partially vaccinated':'badge-orange','Not vaccinated':'badge-red','Unknown':'badge-gray'};
+  return `<span class="badge ${map[v]||'badge-gray'}">${v||'Unknown'}</span>`;
+}
+function stayBadge(s) {
+  const map = {'upcoming':'badge-blue','active':'badge-green','completed':'badge-gray'};
+  const icons = {'upcoming':'🗓️','active':'✅','completed':'🏁'};
+  return `<span class="badge ${map[s]||'badge-gray'}">${icons[s]||''} ${(s||'unknown').charAt(0).toUpperCase()+(s||'').slice(1)}</span>`;
+}
+function fmt(d) { return d ? new Date(d+'T00:00:00').toLocaleDateString('en-MY') : '—'; }
+function calcNights(ci, co) {
+  if (!ci || !co) return '—';
+  const diff = (new Date(co) - new Date(ci)) / 86400000;
+  return diff >= 0 ? diff + (diff === 1 ? ' night' : ' nights') : '—';
+}
+function emptyRow(cols) {
+  return `<tr><td colspan="${cols}" style="text-align:center;color:var(--text-light);padding:32px;">No records found.</td></tr>`;
+}
+
+// ── Stay Update Modal ─────────────────────────────────────
+function openCheckoutModal(idx, name, status, checkoutDate) {
+  currentStayIndex = idx;
+  document.getElementById('modalPetName').value = name;
+  document.getElementById('modalStatus').value  = status || 'upcoming';
+  document.getElementById('modalCheckout').value = checkoutDate || '';
+  document.getElementById('checkoutModal').classList.add('open');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function updateStay() {
+  if (currentStayIndex === null) return;
+  const pets    = getPetsAll();
+  const pet     = pets[currentStayIndex];
+  const status  = document.getElementById('modalStatus').value;
+  const coDate  = document.getElementById('modalCheckout').value;
+
+  if (pet._sample) {
+    showToast('Cannot update sample records. Register a real pet to update stays.', 'error');
+    closeModal('checkoutModal');
+    return;
+  }
+
+  // Update in localStorage
+  const stored = getData('pets');
+  const storeIdx = currentStayIndex - SAMPLE_PETS.length;
+  if (storeIdx >= 0 && stored[storeIdx]) {
+    stored[storeIdx].stayStatus   = status;
+    stored[storeIdx].checkoutDate = coDate;
+    localStorage.setItem('pets', JSON.stringify(stored));
+  }
+
+  updateStayTable();
+  closeModal('checkoutModal');
+  showToast('Stay record updated!');
+}
+</script>
+</body>
+</html>

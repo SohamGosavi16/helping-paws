@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback – Happy Paws & Pixels</title>
+  <meta name="description" content="Share your experience at Happy Paws & Pixels pet hostel. Rate our services and help us improve.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+  <style>
+    .rating-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    .rating-bar-label { width:48px; font-size:.85rem; font-weight:700; text-align:right; }
+    .rating-bar-fill  { flex:1; }
+    .rating-bar-count { width:28px; font-size:.82rem; color:var(--text-light); text-align:right; }
+
+    /* CSS-only star rating trick */
+    .star-picker { display:flex; flex-direction:row-reverse; gap:6px; }
+    .star-picker input { display:none; }
+    .star-picker label {
+      font-size:2.5rem;
+      cursor:pointer;
+      color:#ddd;
+      transition:color .15s;
+    }
+    .star-picker input:checked ~ label,
+    .star-picker label:hover,
+    .star-picker label:hover ~ label { color:var(--orange); }
+
+    .feedback-card { border-left:4px solid var(--orange-light); }
+  </style>
+</head>
+<body>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="section-label">Your Experience</span>
+    <h1>Share Your Feedback ⭐</h1>
+    <p>We value every review! Help us improve our services and continue providing the best care for your pets.</p>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="tab-group" id="feedbackTabGroup">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="submit">✍️ Submit Feedback</button>
+        <button class="tab-btn" data-tab="dashboard">📊 Feedback Dashboard</button>
+      </div>
+
+      <!-- ══════ TAB: SUBMIT FEEDBACK ════════════════════════ -->
+      <div class="tab-content active" data-tab-content="submit">
+        <div class="grid-2" style="align-items:flex-start;gap:40px;">
+
+          <!-- Feedback Form -->
+          <div class="card" style="padding:36px;">
+            <h2 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:6px;">Pet Owner Feedback Form</h2>
+            <p style="color:var(--text-mid);font-size:.9rem;margin-bottom:24px;">Please share your honest experience. Your feedback helps us improve!</p>
+
+            <div id="feedbackSuccess" class="alert alert-success hidden">
+              🎉 Thank you for your feedback! We appreciate you taking the time to help us improve Happy Paws & Pixels.
+            </div>
+
+            <form id="feedbackForm" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Your Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="fbOwnerName" placeholder="Your full name" required>
+                  <span class="form-error">Please enter your name.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Pet's Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="fbPetName" placeholder="Your pet's name" required>
+                  <span class="form-error">Please enter your pet's name.</span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="fbEmail" placeholder="Optional – for follow-up">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Pet Type</label>
+                  <select class="form-control" id="fbPetType">
+                    <option value="">Select…</option>
+                    <option>🐕 Dog</option>
+                    <option>🐈 Cat</option>
+                    <option>🐰 Rabbit</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Approximate Stay Period</label>
+                <div class="form-row">
+                  <input type="date" class="form-control" id="fbStayFrom" placeholder="Stay from">
+                  <input type="date" class="form-control" id="fbStayTo" placeholder="Stay to">
+                </div>
+              </div>
+
+              <!-- Star Rating -->
+              <div class="form-group">
+                <label class="form-label">Overall Rating <span class="required">*</span></label>
+                <div class="star-picker" id="starPicker">
+                  <input type="radio" name="rating" id="s5" value="5"><label for="s5" title="5 – Excellent">★</label>
+                  <input type="radio" name="rating" id="s4" value="4"><label for="s4" title="4 – Good">★</label>
+                  <input type="radio" name="rating" id="s3" value="3"><label for="s3" title="3 – Okay">★</label>
+                  <input type="radio" name="rating" id="s2" value="2"><label for="s2" title="2 – Poor">★</label>
+                  <input type="radio" name="rating" id="s1" value="1"><label for="s1" title="1 – Very Poor">★</label>
+                </div>
+                <p class="form-hint" id="ratingHint">Click to rate your experience (1–5 stars)</p>
+                <span class="form-error" id="ratingError" style="display:none;">Please select a rating.</span>
+              </div>
+
+              <!-- Category Ratings -->
+              <div class="form-group">
+                <label class="form-label">Rate Individual Aspects</label>
+                <div style="display:grid;gap:10px;margin-top:8px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                    <span style="font-size:.88rem;font-weight:600;min-width:150px;">Staff Friendliness</span>
+                    <div style="display:flex;gap:4px;" id="catStaff" data-cat="staff"><span class="mini-star" data-v="1">★</span><span class="mini-star" data-v="2">★</span><span class="mini-star" data-v="3">★</span><span class="mini-star" data-v="4">★</span><span class="mini-star" data-v="5">★</span></div>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                    <span style="font-size:.88rem;font-weight:600;min-width:150px;">Cleanliness</span>
+                    <div style="display:flex;gap:4px;" id="catClean" data-cat="clean"><span class="mini-star" data-v="1">★</span><span class="mini-star" data-v="2">★</span><span class="mini-star" data-v="3">★</span><span class="mini-star" data-v="4">★</span><span class="mini-star" data-v="5">★</span></div>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                    <span style="font-size:.88rem;font-weight:600;min-width:150px;">Pet Care Quality</span>
+                    <div style="display:flex;gap:4px;" id="catCare" data-cat="care"><span class="mini-star" data-v="1">★</span><span class="mini-star" data-v="2">★</span><span class="mini-star" data-v="3">★</span><span class="mini-star" data-v="4">★</span><span class="mini-star" data-v="5">★</span></div>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                    <span style="font-size:.88rem;font-weight:600;min-width:150px;">Value for Money</span>
+                    <div style="display:flex;gap:4px;" id="catValue" data-cat="value"><span class="mini-star" data-v="1">★</span><span class="mini-star" data-v="2">★</span><span class="mini-star" data-v="3">★</span><span class="mini-star" data-v="4">★</span><span class="mini-star" data-v="5">★</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Overall Experience -->
+              <div class="form-group">
+                <label class="form-label">Overall Experience <span class="required">*</span></label>
+                <select class="form-control" id="fbExperience" required>
+                  <option value="">Select experience level…</option>
+                  <option value="Excellent">😍 Excellent – Exceeded expectations</option>
+                  <option value="Good">😊 Good – Met expectations</option>
+                  <option value="Satisfactory">🙂 Satisfactory – Acceptable</option>
+                  <option value="Needs Improvement">😐 Needs Improvement</option>
+                  <option value="Poor">😞 Poor – Did not meet expectations</option>
+                </select>
+                <span class="form-error">Please select your experience level.</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Feedback Comments <span class="required">*</span></label>
+                <textarea class="form-control" id="fbComments" placeholder="Share your thoughts about your pet's stay, our staff, facilities, and services…" rows="5" required maxlength="1000"></textarea>
+                <div class="form-hint" style="display:flex;justify-content:space-between;">
+                  <span>Please be specific and constructive.</span>
+                  <span id="charCount">0 / 1000</span>
+                </div>
+                <span class="form-error">Please share your feedback comments.</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Suggestions for Improvement</label>
+                <textarea class="form-control" id="fbSuggestions" placeholder="What can we do better? Any features or services you'd like to see?" rows="3" maxlength="500"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Would you recommend us to others?</label>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.93rem;font-weight:600;">
+                    <input type="radio" name="recommend" value="Yes"> 👍 Yes, definitely!
+                  </label>
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.93rem;font-weight:600;">
+                    <input type="radio" name="recommend" value="Maybe"> 🤔 Maybe
+                  </label>
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.93rem;font-weight:600;">
+                    <input type="radio" name="recommend" value="No"> 👎 Not at this time
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-check" style="margin-bottom:20px;">
+                <input type="checkbox" id="fbPublish" style="accent-color:var(--green-dark);">
+                <label class="form-check-label" for="fbPublish">
+                  I consent to my feedback being displayed (anonymously if preferred) on the Happy Paws & Pixels website.
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg">⭐ Submit Feedback</button>
+            </form>
+          </div>
+
+          <!-- Sidebar: Quick Stats & Recent -->
+          <div>
+            <div class="card" style="padding:28px;margin-bottom:20px;background:linear-gradient(135deg,var(--cream),var(--cream-dark));border:none;">
+              <h3 style="font-weight:700;margin-bottom:16px;">📊 Feedback Overview</h3>
+              <div style="text-align:center;margin-bottom:20px;">
+                <div style="font-family:var(--font-head);font-size:3.5rem;font-weight:800;color:var(--orange-dark);" id="avgRatingDisplay">4.7</div>
+                <div style="color:var(--orange);font-size:1.5rem;letter-spacing:3px;" id="avgStarsDisplay">★★★★★</div>
+                <div style="font-size:.85rem;color:var(--text-mid);margin-top:4px;" id="totalReviewsDisplay">Based on 0 reviews</div>
+              </div>
+              <div id="ratingBarsContainer"><!-- JS --></div>
+            </div>
+
+            <div class="card" style="padding:24px;margin-bottom:20px;">
+              <h3 style="font-weight:700;margin-bottom:16px;">💡 Why Your Feedback Matters</h3>
+              <ul style="padding:0;">
+                <li style="display:flex;gap:10px;margin-bottom:10px;font-size:.9rem;"><span>🐾</span><span>Helps us improve the quality of care for all pets.</span></li>
+                <li style="display:flex;gap:10px;margin-bottom:10px;font-size:.9rem;"><span>🐾</span><span>Identifies strengths and areas for improvement.</span></li>
+                <li style="display:flex;gap:10px;margin-bottom:10px;font-size:.9rem;"><span>🐾</span><span>Guides training for our volunteer team.</span></li>
+                <li style="display:flex;gap:10px;margin-bottom:10px;font-size:.9rem;"><span>🐾</span><span>Builds trust with prospective pet owners.</span></li>
+              </ul>
+            </div>
+
+            <!-- Recent Feedback -->
+            <div>
+              <h3 style="font-weight:700;margin-bottom:14px;">🌟 Recent Feedback</h3>
+              <div id="recentFeedbackContainer"><!-- JS --></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ TAB: FEEDBACK DASHBOARD ════════════════════ -->
+      <div class="tab-content" data-tab-content="dashboard">
+        <div class="sample-banner">⚠️ Sample feedback shown for demonstration. Real submissions appear below sample records.</div>
+
+        <!-- Summary Row -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;" id="dashSummary">
+          <!-- JS -->
+        </div>
+
+        <!-- Rating Distribution -->
+        <div class="card" style="padding:28px;margin-bottom:24px;">
+          <h3 style="font-weight:700;margin-bottom:20px;">⭐ Rating Distribution</h3>
+          <div id="dashRatingBars"><!-- JS --></div>
+        </div>
+
+        <!-- Search & Filter -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+          <h3 style="font-weight:700;">All Feedback Records</h3>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <div class="search-bar" style="max-width:260px;">
+              <span>🔍</span>
+              <input type="text" placeholder="Search feedback…" id="fbSearch">
+            </div>
+            <select class="form-control" id="fbRatingFilter" style="width:auto;padding:8px 12px;border-radius:99px;font-size:.85rem;">
+              <option value="">All Ratings</option>
+              <option value="5">⭐⭐⭐⭐⭐ 5 stars</option>
+              <option value="4">⭐⭐⭐⭐ 4 stars</option>
+              <option value="3">⭐⭐⭐ 3 stars</option>
+              <option value="2">⭐⭐ 2 stars</option>
+              <option value="1">⭐ 1 star</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Cards view -->
+        <div id="feedbackCardsContainer" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;"></div>
+
+        <!-- Table view -->
+        <div class="table-wrap">
+          <table id="feedbackTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Owner</th>
+                <th>Pet</th>
+                <th>Rating</th>
+                <th>Experience</th>
+                <th>Comments (summary)</th>
+                <th>Recommend</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="feedbackTableBody"><!-- JS --></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="module" src="/supabase.js"></script>
+<script type="module" src="/app.js"></script>
+<script>
+// ── Sample Feedback ──────────────────────────────────────
+const SAMPLE_FEEDBACK = [
+  { ownerName:'Sarah L.', petName:'Max', petType:'🐕 Dog', rating:5, experience:'Excellent', comments:'Absolutely wonderful experience! Max was happy and well-cared for. The staff sent daily photos. Will definitely be back!', suggestions:'Maybe add more outdoor play area.', recommend:'Yes', publish:true, createdAt:'2024-11-15T08:00:00.000Z', _sample:true },
+  { ownerName:'Nurul A.', petName:'Luna', petType:'🐈 Cat', rating:5, experience:'Excellent', comments:'Luna seemed so relaxed when we picked her up. The digital consent form was very convenient. Great facility!', suggestions:'More cat-specific enrichment toys would be great.', recommend:'Yes', publish:true, createdAt:'2024-11-20T09:00:00.000Z', _sample:true },
+  { ownerName:'Raj K.',   petName:'Buddy', petType:'🐕 Dog', rating:4, experience:'Good', comments:'Good overall experience. Staff were friendly and Buddy was well fed. Minor issue with check-out timing but resolved quickly.', suggestions:'Clearer communication about pick-up times.', recommend:'Yes', publish:true, createdAt:'2024-11-25T10:00:00.000Z', _sample:true },
+  { ownerName:'Mei L.',   petName:'Mochi', petType:'🐈 Cat', rating:4, experience:'Good', comments:'First time leaving Mochi at a hostel and I was nervous. The team was very reassuring and professional.', suggestions:'More frequent photo updates would be appreciated.', recommend:'Maybe', publish:true, createdAt:'2024-11-28T11:00:00.000Z', _sample:true },
+  { ownerName:'Azman H.', petName:'Rex',   petType:'🐕 Dog', rating:3, experience:'Satisfactory', comments:'Care was okay but the facility could use some improvements in the sleeping area for large dogs.', suggestions:'Larger kennels for big breeds.', recommend:'Maybe', publish:true, createdAt:'2024-12-01T12:00:00.000Z', _sample:true },
+];
+
+// ── Mini star ratings (category) ─────────────────────────
+const catRatings = { staff: 0, clean: 0, care: 0, value: 0 };
+
+// ── Init ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initTabs();
+  initMiniStars();
+
+  // Char counter
+  document.getElementById('fbComments')?.addEventListener('input', function() {
+    document.getElementById('charCount').textContent = `${this.value.length} / 1000`;
+  });
+
+  // Rating hint
+  document.querySelectorAll('input[name="rating"]').forEach(input => {
+    input.addEventListener('change', () => {
+      const hints = ['', '😞 Very Poor', '😐 Poor', '🙂 Okay', '😊 Good', '😍 Excellent!'];
+      document.getElementById('ratingHint').textContent = hints[input.value] || '';
+    });
+  });
+
+  // Feedback form submit
+  document.getElementById('feedbackForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const rating = document.querySelector('input[name="rating"]:checked')?.value;
+    if (!rating) {
+      document.getElementById('ratingError').style.display = 'block';
+      showToast('Please select a star rating.', 'error');
+      return;
+    }
+    document.getElementById('ratingError').style.display = 'none';
+
+    if (!validateForm(this)) {
+      showToast('Please fill in all required fields.', 'error');
+      return;
+    }
+
+    const data = {
+      ownerName:   document.getElementById('fbOwnerName').value,
+      petName:     document.getElementById('fbPetName').value,
+      email:       document.getElementById('fbEmail').value,
+      petType:     document.getElementById('fbPetType').value,
+      stayFrom:    document.getElementById('fbStayFrom').value,
+      stayTo:      document.getElementById('fbStayTo').value,
+      rating:      parseInt(rating),
+      catStaff:    catRatings.staff,
+      catClean:    catRatings.clean,
+      catCare:     catRatings.care,
+      catValue:    catRatings.value,
+      experience:  document.getElementById('fbExperience').value,
+      comments:    document.getElementById('fbComments').value,
+      suggestions: document.getElementById('fbSuggestions').value,
+      recommend:   document.querySelector('input[name="recommend"]:checked')?.value || '—',
+      publish:     document.getElementById('fbPublish').checked,
+    };
+
+    storeData('feedback', data);
+    document.getElementById('feedbackSuccess').classList.remove('hidden');
+    this.reset();
+    catRatings.staff = catRatings.clean = catRatings.care = catRatings.value = 0;
+    initMiniStars();
+    document.getElementById('charCount').textContent = '0 / 1000';
+    updateDashboard();
+    showToast('Thank you for your feedback!');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  updateDashboard();
+  updateRecentFeedback();
+  loadCloudFeedback();
+  filterTable('#fbSearch', '#feedbackTable');
+
+  // Rating filter
+  document.getElementById('fbRatingFilter')?.addEventListener('change', function() {
+    const filter = this.value;
+    document.querySelectorAll('#feedbackTable tbody tr').forEach(row => {
+      const rCell = row.cells[3]?.textContent || '';
+      row.style.display = !filter || rCell.includes(filter.charAt(0)) ? '' : 'none';
+    });
+  });
+});
+
+// ── Mini star widget ──────────────────────────────────────
+function initMiniStars() {
+  document.querySelectorAll('[id^="cat"]').forEach(container => {
+    const cat = container.dataset.cat;
+    const stars = container.querySelectorAll('.mini-star');
+    stars.forEach((star, idx) => {
+      star.style.cssText = 'font-size:1.4rem;cursor:pointer;color:#ddd;transition:color .15s;';
+      star.addEventListener('click', () => {
+        catRatings[cat] = parseInt(star.dataset.v);
+        stars.forEach((s, i) => {
+          s.style.color = i < catRatings[cat] ? 'var(--orange)' : '#ddd';
+        });
+      });
+      star.addEventListener('mouseover', () => {
+        stars.forEach((s, i) => { s.style.color = i <= idx ? 'var(--orange)' : '#ddd'; });
+      });
+    });
+    container.addEventListener('mouseleave', () => {
+      stars.forEach((s, i) => {
+        s.style.color = i < catRatings[cat] ? 'var(--orange)' : '#ddd';
+      });
+    });
+  });
+}
+
+// ── Get all feedback ──────────────────────────────────────
+let cloudFeedback = null;
+
+async function loadCloudFeedback() {
+  if (window.fetchRecords && window.pawsDB && window.pawsDB.isConfigured()) {
+    try {
+      const records = await window.fetchRecords('feedback');
+      if (Array.isArray(records)) {
+        cloudFeedback = records;
+        updateDashboard();
+        updateRecentFeedback();
+      }
+    } catch (err) {
+      console.warn('Error loading cloud feedback:', err);
+    }
+  }
+}
+
+function getAllFeedback() {
+  return [...SAMPLE_FEEDBACK, ...(cloudFeedback || getData('feedback'))];
+}
+
+// ── Dashboard ─────────────────────────────────────────────
+function updateDashboard() {
+  const all = getAllFeedback();
+  const total = all.length;
+  const avg = total ? (all.reduce((s, f) => s + (f.rating || 0), 0) / total).toFixed(1) : 0;
+  const excellent = all.filter(f => f.rating === 5).length;
+  const needsWork = all.filter(f => f.rating <= 2).length;
+
+  // Summary cards
+  document.getElementById('dashSummary').innerHTML = `
+    <div class="stat-card"><div class="stat-icon orange">💬</div><div><div class="stat-num">${total}</div><div class="stat-label">Total Reviews</div></div></div>
+    <div class="stat-card"><div class="stat-icon green">⭐</div><div><div class="stat-num">${avg}</div><div class="stat-label">Average Rating</div></div></div>
+    <div class="stat-card"><div class="stat-icon blue">😍</div><div><div class="stat-num">${excellent}</div><div class="stat-label">Excellent (5★)</div></div></div>
+    <div class="stat-card"><div class="stat-icon red">⚠️</div><div><div class="stat-num">${needsWork}</div><div class="stat-label">Needs Attention (≤2★)</div></div></div>
+  `;
+
+  // Avg rating display
+  document.getElementById('avgRatingDisplay').textContent = avg;
+  document.getElementById('avgStarsDisplay').textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+  document.getElementById('totalReviewsDisplay').textContent = `Based on ${total} review${total !== 1 ? 's' : ''}`;
+
+  // Rating bars
+  for (const container of ['ratingBarsContainer', 'dashRatingBars']) {
+    const el = document.getElementById(container);
+    if (!el) continue;
+    el.innerHTML = [5,4,3,2,1].map(star => {
+      const count = all.filter(f => f.rating === star).length;
+      const pct   = total ? Math.round((count / total) * 100) : 0;
+      return `
+        <div class="rating-bar-row">
+          <span class="rating-bar-label">${'★'.repeat(star)}</span>
+          <div class="rating-bar-fill">
+            <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;${star >= 4 ? '' : star === 3 ? 'background:var(--orange);' : 'background:#ef5350;'}"></div></div>
+          </div>
+          <span class="rating-bar-count">${count}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Table
+  const tbody = document.getElementById('feedbackTableBody');
+  if (tbody) {
+    tbody.innerHTML = all.map((f, i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td><strong>${f.ownerName}</strong>${f._sample ? ' <span class="badge badge-orange">Sample</span>' : ''}</td>
+        <td>${f.petName} ${f.petType || ''}</td>
+        <td><span class="stars-display">${'★'.repeat(f.rating)}</span> ${f.rating}/5</td>
+        <td><span class="badge ${expBadge(f.experience)}">${f.experience}</span></td>
+        <td style="max-width:200px;font-size:.82rem;">${f.comments?.substring(0, 80)}…</td>
+        <td>${f.recommend || '—'}</td>
+        <td style="font-size:.82rem;">${f.createdAt ? new Date(f.createdAt).toLocaleDateString() : '—'}</td>
+      </tr>
+    `).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text-light);padding:32px;">No feedback yet.</td></tr>';
+  }
+
+  // Cards
+  const cardsContainer = document.getElementById('feedbackCardsContainer');
+  if (cardsContainer) {
+    cardsContainer.innerHTML = all.slice(0, 6).map(f => `
+      <div class="card feedback-card" style="padding:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+          <div>
+            <strong>${f.ownerName}</strong> ${f._sample ? '<span class="badge badge-orange">Sample</span>' : ''}
+            <div style="font-size:.82rem;color:var(--text-light);">Pet: ${f.petName} ${f.petType || ''}</div>
+          </div>
+          <div class="stars-display" style="font-size:1rem;">${'★'.repeat(f.rating)}</div>
+        </div>
+        <p style="font-size:.88rem;color:var(--text-mid);font-style:italic;margin-bottom:10px;">"${f.comments?.substring(0, 120)}${f.comments?.length > 120 ? '…' : ''}"</p>
+        ${f.suggestions ? `<p style="font-size:.8rem;color:var(--text-light);">💡 ${f.suggestions?.substring(0,80)}</p>` : ''}
+        <div style="margin-top:10px;display:flex;align-items:center;gap:8px;">
+          <span class="badge ${expBadge(f.experience)}">${f.experience}</span>
+          ${f.recommend === 'Yes' ? '<span class="badge badge-green">👍 Recommends</span>' : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function updateRecentFeedback() {
+  const container = document.getElementById('recentFeedbackContainer');
+  if (!container) return;
+  const recent = getAllFeedback().slice(-3).reverse();
+  container.innerHTML = recent.map(f => `
+    <div class="card" style="padding:16px;margin-bottom:12px;border-left:4px solid var(--orange);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <strong style="font-size:.9rem;">${f.ownerName} ${f._sample ? '<span class="badge badge-orange" style="font-size:.7rem;">Sample</span>' : ''}</strong>
+        <span class="stars-display" style="font-size:.9rem;">${'★'.repeat(f.rating)}</span>
+      </div>
+      <p style="font-size:.85rem;color:var(--text-mid);">"${f.comments?.substring(0, 90)}…"</p>
+    </div>
+  `).join('') || '<p style="color:var(--text-light);font-size:.9rem;">No feedback submitted yet.</p>';
+}
+
+function expBadge(e) {
+  const map = {'Excellent':'badge-green','Good':'badge-blue','Satisfactory':'badge-orange','Needs Improvement':'badge-orange','Poor':'badge-red'};
+  return map[e] || 'badge-gray';
+}
+</script>
+</body>
+</html>
